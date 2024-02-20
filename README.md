@@ -1,1 +1,1 @@
-Deployed URL - > [https://pyshkumar.github.io/Siemens_Project_01/](url)
+Deployed URL - > https://pyshkumar.github.io/Siemens_Project_01/
