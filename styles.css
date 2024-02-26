@@ -1,7 +1,5 @@
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+  background-color: #f1c27d;
 }
 
 .container {
@@ -17,20 +15,31 @@ h1 {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  border-style: outset;
+  border-color: black;
 }
 
 th,
 td {
   padding: 12px;
+  border-style: solid;
+  border-color: #8d5524;
+  border-width: 2px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
 th {
-  background-color: #f2f2f2;
+  background-color: #c68642;
 }
 
 tbody tr:hover {
-  background-color: #f5f5f5;
+  background-color: #ffdbac;
 }
+/* The switch - the box around the slider
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+} */
