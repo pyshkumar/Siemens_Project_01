@@ -3,14 +3,31 @@ document.addEventListener("DOMContentLoaded", async function () {
     const response = await fetch("data.json");
     let data = await response.json();
 
-    const toggleButton = document.querySelector(".switch input");
     const tableBody = document.getElementById("tableBody");
+    let sortField = "employeeId";
+    let sortAscending = true;
 
-    const populateTable = (sort) => {
+    const updateIcons = () => {
+      const allIcons = document.querySelectorAll(".icond i");
+
+      allIcons.forEach((icon) => {
+        icon.classList.remove("fa-arrow-up", "fa-arrow-down");
+        icon.classList.add("fa-arrow-up");
+      });
+
+      const icon = document.getElementById(`_${sortField}`);
+
+      if (!sortAscending) {
+        icon.querySelector("i").classList.remove("fa-arrow-up");
+        icon.querySelector("i").classList.add("fa-arrow-down");
+      }
+    };
+
+    const populateTable = () => {
       data.sort((a, b) =>
-        sort
-          ? a.employeeId.localeCompare(b.employeeId)
-          : b.employeeId.localeCompare(a.employeeId)
+        sortAscending
+          ? a[sortField].localeCompare(b[sortField])
+          : b[sortField].localeCompare(a[sortField])
       );
 
       tableBody.innerHTML = "";
@@ -24,15 +41,47 @@ document.addEventListener("DOMContentLoaded", async function () {
         row.insertCell(4).textContent = employee.contactNumber;
         row.insertCell(5).textContent = employee.position;
       });
+
+      updateIcons();
     };
 
-    populateTable(true);
+    populateTable();
 
-    toggleButton.addEventListener("change", function () {
-      const sort = this.checked;
+    const setSortingField = (field) => {
+      sortField = field;
+      sortAscending = !sortAscending;
+      populateTable();
+    };
 
-      populateTable(sort);
-    });
+    const toggleSortingOrder = () => {
+      sortAscending = !sortAscending;
+      populateTable();
+    };
+
+    // Event listeners for sorting w.r.t to any column
+    document
+      .getElementById("_employeeId")
+      .addEventListener("click", () => setSortingField("employeeId"));
+
+    document
+      .getElementById("_firstName")
+      .addEventListener("click", () => setSortingField("firstName"));
+
+    document
+      .getElementById("_lastName")
+      .addEventListener("click", () => setSortingField("lastName"));
+
+    document
+      .getElementById("_email")
+      .addEventListener("click", () => setSortingField("email"));
+
+    document
+      .getElementById("_contactNumber")
+      .addEventListener("click", () => setSortingField("contactNumber"));
+
+    document
+      .getElementById("_position")
+      .addEventListener("click", () => setSortingField("position"));
   } catch (error) {
     console.error(error);
   }

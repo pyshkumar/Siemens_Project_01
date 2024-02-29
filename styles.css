@@ -3,7 +3,7 @@ body {
 }
 
 .container {
-  max-width: 800px;
+  max-width: 1050px;
   margin: 20px auto;
 }
 
@@ -36,10 +36,12 @@ th {
 tbody tr:hover {
   background-color: #ffdbac;
 }
-/* The switch - the box around the slider
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-} */
+
+.icond {
+  color: #1b1b1b;
+  padding: 2px;
+}
+
+.icond:hover {
+  color: grey;
+}

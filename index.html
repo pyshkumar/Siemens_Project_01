@@ -1,34 +1,56 @@
-<!DOCTYPE >
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <title>Employee Data</title>
     <link rel="stylesheet" href="styles.css" />
+    <script
+      src="https://kit.fontawesome.com/8ea7e85408.js"
+      crossorigin="anonymous"
+    ></script>
     <script src="index.js"></script>
   </head>
   <body>
     <div class="container">
-      <h1>XYZ Employee Details</h1>
+      <h1>Employees Data Management System</h1>
       <table id="employeeTable">
         <thead>
           <tr>
             <th>
               Employee ID
-              <label class="switch">
-                <input type="checkbox" />
-                <span></span>
-              </label>
+              <span id="_employeeId" class="icond">
+                <i class="fa-solid fa-arrow-up"></i>
+              </span>
             </th>
             <th>
               First Name
-              <label class="switch">
-                <input type="checkbox" />
-                <span></span>
-              </label>
+              <span id="_firstName" class="icond">
+                <i class="fa-solid fa-arrow-up"></i>
+              </span>
             </th>
-            <th>Last Name</th>
-            <th>Email ID</th>
-            <th>Contact No.</th>
-            <th>Position</th>
+            <th>
+              Last Name
+              <span id="_lastName" class="icond">
+                <i class="fa-solid fa-arrow-up"></i>
+              </span>
+            </th>
+            <th>
+              Email ID
+              <span id="_email" class="icond">
+                <i class="fa-solid fa-arrow-up"></i>
+              </span>
+            </th>
+            <th>
+              Contact No.
+              <span id="_contactNumber" class="icond">
+                <i class="fa-solid fa-arrow-up"></i>
+              </span>
+            </th>
+            <th>
+              Position
+              <span id="_position" class="icond">
+                <i class="fa-solid fa-arrow-up"></i>
+              </span>
+            </th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
