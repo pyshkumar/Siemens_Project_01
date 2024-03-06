@@ -8,20 +8,25 @@ document.addEventListener("DOMContentLoaded", async function () {
     let sortAscending = true;
 
     const updateIcons = () => {
-      const allIcons = document.querySelectorAll(".icond i");
+      const allIcons = document.querySelectorAll(".icond");
 
       allIcons.forEach((icon) => {
-        icon.classList.remove("fa-arrow-up", "fa-arrow-down");
-        icon.classList.add("fa-arrow-up");
+        icon
+          .querySelector("i")
+          .classList.remove("fa-arrow-up", "fa-arrow-down");
+        icon.querySelector("i").classList.add("fa-arrow-up");
+        icon.style.color = "#1b1b1b";
       });
 
       const icon = document.getElementById(`_${sortField}`);
-
+      icon.style.color = "white";
       if (!sortAscending) {
         icon.querySelector("i").classList.remove("fa-arrow-up");
         icon.querySelector("i").classList.add("fa-arrow-down");
       }
     };
+
+    console.log(typeof data[0].employeeId);
 
     const populateTable = () => {
       data.sort((a, b) =>
@@ -82,6 +87,80 @@ document.addEventListener("DOMContentLoaded", async function () {
     document
       .getElementById("_position")
       .addEventListener("click", () => setSortingField("position"));
+
+    // Create Modal functionality
+    const Createmodal = document.getElementById("myModal");
+    const createBtn = document.getElementById("createBtn");
+    const submitModal = document.getElementById("submitModal");
+    const cancelModal = document.getElementById("cancelModal");
+
+    //Function to validate entered data
+    const validateData = (formData) => {
+      const {
+        employeeId,
+        firstName,
+        lastName,
+        email,
+        contactNumber,
+        position,
+      } = formData;
+
+      let regex = new RegExp(
+        "^([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,6})?$"
+      );
+      let result = regex.test(email);
+
+      if (!employeeId || !firstName || !result) {
+        return false;
+      }
+
+      return true;
+    };
+
+    createBtn.addEventListener("click", () => {
+      Createmodal.style.display = "block";
+    });
+
+    submitModal.addEventListener("click", async () => {
+      try {
+        const formData = {
+          employeeId: document.getElementById("CreateModalEmployeeId").value,
+          firstName: document.getElementById("CreateModalFirstName").value,
+          lastName: document.getElementById("CreateModalLastName").value,
+          email: document.getElementById("CreateModalEmail").value,
+          contactNumber: document.getElementById("CreateModalContactNumber")
+            .value,
+          position: document.getElementById("CreateModalPosition").value,
+        };
+
+        if (!validateData(formData)) {
+          return;
+        }
+
+        //Calling server for modification of Database
+        const response = await fetch("http://localhost:3000/updateData", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+          console.log("Data updated successfully!");
+          modal.style.display = "none";
+          populateTable();
+        } else {
+          console.error("Failed to update data:");
+        }
+      } catch (error) {
+        console.error("Error updating data:", error);
+      }
+    });
+
+    cancelModal.addEventListener("click", () => {
+      Createmodal.style.display = "none";
+    });
   } catch (error) {
     console.error(error);
   }

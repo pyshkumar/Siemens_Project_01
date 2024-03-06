@@ -12,6 +12,15 @@
   <body>
     <div class="container">
       <h1>Employees Data Management System</h1>
+      <div class="buttons-container">
+        <button id="createBtn">Create</button>
+        <!-- <button id="deleteBtn">Delete</button>
+        <button id="updateBtn">Update</button>
+        <button id="searchBtn">Search</button> -->
+      </div>
+
+      <!-- The Table -->
+
       <table id="employeeTable">
         <thead>
           <tr>
@@ -55,6 +64,93 @@
         </thead>
         <tbody id="tableBody"></tbody>
       </table>
+    </div>
+
+    <!-- The Create modal -->
+
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <h2 style="padding-left: 100px">Enter Data</h2>
+
+        <form id="modalForm">
+          <div class="createModalFields">
+            <label for="CreateModalEmployeeId" class="createModalitems"
+              >Employee ID <span style="color: red">*</span></label
+            >
+            <input
+              class="createModalitems"
+              type="number"
+              id="CreateModalEmployeeId"
+              name="CreateModalEmployeeId"
+              required
+              style="left: 11px"
+            />
+
+            <label for="CreateModalFirstName" class="createModalitems"
+              >First Name <span style="color: red">*</span></label
+            >&nbsp;&nbsp;
+            <input
+              class="createModalitems"
+              type="text"
+              id="CreateModalFirstName"
+              name="CreateModalFirstName"
+              required
+              style="left: 18px"
+            />
+            <label for="CreateModalLastName" class="createModalitems"
+              >Last Name &emsp14;&emsp;&emsp14;
+            </label>
+            <input
+              type="text"
+              id="CreateModalLastName"
+              name="CreateModalLastName"
+              class="createModalitems"
+              style="left: 11px"
+            />
+
+            <label for="CreateModalEmail" class="createModalitems"
+              >Email &emsp;&emsp;
+            </label>
+            <input
+              type="email"
+              oninvalid="this.setCustomValidity('Enter a valid email address')"
+              oninput="this.setCustomValidity('')"
+              title="Enter a valid email address"
+              id="CreateModalEmail"
+              name="CreateModalEmail"
+              class="createModalitems"
+              style="left: 35px"
+            />
+
+            <label for="CreateModalContactNumber" class="createModalitems"
+              >Contact Number
+            </label>
+            <input
+              type="number"
+              id="CreateModalContactNumber"
+              name="CreateModalContactNumber"
+              class="createModalitems"
+              style="left: 3px"
+            />
+
+            <label for="CreateModalPosition" class="createModalitems"
+              >Position
+            </label>
+            <input
+              type="text"
+              id="CreateModalPosition"
+              name="CreateModalPosition"
+              class="createModalitems"
+              style="left: 57px"
+            />
+          </div>
+
+          <div style="padding-top: 10px; padding-left: 57px">
+            <button type="submit" id="submitModal">Submit</button>
+            <button type="button" id="cancelModal">Cancel</button>
+          </div>
+        </form>
+      </div>
     </div>
   </body>
 </html>
