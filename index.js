@@ -121,7 +121,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       Createmodal.style.display = "block";
     });
 
-    submitModal.addEventListener("click", async () => {
+    submitModal.addEventListener("click", async (event) => {
+      event.preventDefault();
       try {
         const formData = {
           employeeId: document.getElementById("CreateModalEmployeeId").value,
@@ -137,6 +138,24 @@ document.addEventListener("DOMContentLoaded", async function () {
           return;
         }
 
+        // Calling server to check if employeeId already exists
+        const response2 = await fetch("http://localhost:3000/checkEmployeeId", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ employeeId: formData.employeeId }),
+        });
+
+        const data = await response2.json();
+
+        if (data.exists) {
+          alert(
+            "Employee ID already exists. Please enter a unique Employee ID."
+          );
+          return;
+        }
+
         //Calling server for modification of Database
         const response = await fetch("http://localhost:3000/updateData", {
           method: "POST",
@@ -145,10 +164,9 @@ document.addEventListener("DOMContentLoaded", async function () {
           },
           body: JSON.stringify(formData),
         });
-
         if (response.ok) {
           console.log("Data updated successfully!");
-          modal.style.display = "none";
+          Createmodal.style.display = "none";
           populateTable();
         } else {
           console.error("Failed to update data:");
@@ -159,6 +177,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     cancelModal.addEventListener("click", () => {
+      const createForm = document.getElementById("modalForm");
+      const createFormInput = createForm.querySelectorAll("input");
+      createFormInput.forEach((input) => {
+        input.value = "";
+      });
       Createmodal.style.display = "none";
     });
   } catch (error) {

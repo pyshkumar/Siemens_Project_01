@@ -9,6 +9,22 @@ app.use(cors());
 app.use(express.static("public"));
 app.use(express.json());
 
+app.post("/checkEmployeeId", async (req, res) => {
+  try {
+    const { employeeId } = req.body;
+    const dataPath = path.join(__dirname, "data.json");
+    const existingData = JSON.parse(await fs.readFile(dataPath, "utf-8"));
+
+    const employeeExists = existingData.some(
+      (employee) => employee.employeeId === employeeId
+    );
+    res.json({ exists: employeeExists });
+  } catch (error) {
+    console.error("Error checking employeeId:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 app.post("/updateData", async (req, res) => {
   try {
     const dataPath = path.join(__dirname, "data.json");
