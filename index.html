@@ -57,6 +57,13 @@
                 <i class="fa-solid fa-arrow-up"></i>
               </span>
             </th>
+
+            <th>
+              <!-- <i
+                class="fa-solid fa-circle-arrow-down"
+                style="padding-left: 2px"
+              ></i> -->
+            </th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -147,6 +154,105 @@
             <button type="button" id="cancelModal">Cancel</button>
           </div>
         </form>
+      </div>
+    </div>
+    <!-- The Update modal -->
+
+    <div id="updateModal" class="modal">
+      <div class="modal-content">
+        <h2 style="padding-left: 90px">Update Record</h2>
+
+        <form id="updateModalForm">
+          <div class="createModalFields">
+            <label for="UpdateModalEmployeeId" class="createModalitems"
+              >Employee ID <span style="color: red">*</span></label
+            >
+            <input
+              class="createModalitems"
+              type="number"
+              id="UpdateModalEmployeeId"
+              name="UpdateModalEmployeeId"
+              required
+              style="left: 11px; opacity: 70%"
+              readonly
+            />
+
+            <label for="UpdateModalFirstName" class="createModalitems"
+              >First Name <span style="color: red">*</span></label
+            >&nbsp;&nbsp;
+            <input
+              class="createModalitems"
+              type="text"
+              id="UpdateModalFirstName"
+              name="UpdateModalFirstName"
+              required
+              style="left: 18px"
+            />
+            <label for="UpdateModalLastName" class="createModalitems"
+              >Last Name &emsp14;&emsp;&emsp14;
+            </label>
+            <input
+              type="text"
+              id="UpdateModalLastName"
+              name="UpdateModalLastName"
+              class="createModalitems"
+              style="left: 11px"
+            />
+
+            <label for="UpdateModalEmail" class="createModalitems"
+              >Email &emsp;&emsp;
+            </label>
+            <input
+              type="email"
+              oninvalid="this.setCustomValidity('Enter a valid email address')"
+              oninput="this.setCustomValidity('')"
+              title="Enter a valid email address"
+              id="UpdateModalEmail"
+              name="UpdateModalEmail"
+              class="createModalitems"
+              style="left: 35px"
+            />
+
+            <label for="UpdateModalContactNumber" class="createModalitems"
+              >Contact Number
+            </label>
+            <input
+              type="tel"
+              id="UpdateModalContactNumber"
+              name="UpdateModalContactNumber"
+              class="createModalitems"
+              style="left: 3px"
+            />
+
+            <label for="UpdateModalPosition" class="createModalitems"
+              >Position
+            </label>
+            <input
+              type="text"
+              id="UpdateModalPosition"
+              name="UpdateModalPosition"
+              class="createModalitems"
+              style="left: 57px"
+            />
+          </div>
+
+          <div style="padding-top: 10px; padding-left: 57px">
+            <button type="submit" id="submitUpdateModal">Save</button>
+            <button type="button" id="cancelUpdateModal">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- The Delete modal -->
+
+    <div id="deleteModal" class="modal">
+      <div class="modal-content">
+        <h2 style="padding-left: 120px">Delete Record</h2>
+        <p id="deleteModalMessage"></p>
+        <div style="padding-top: 10px; padding-left: 80px">
+          <button type="button" id="confirmDeleteModal">Confirm</button>
+          <button type="button" id="cancelDeleteModal">Cancel</button>
+        </div>
       </div>
     </div>
   </body>
