@@ -25,7 +25,7 @@ app.post("/checkEmployeeId", async (req, res) => {
   }
 });
 
-app.post("/updateData", async (req, res) => {
+app.post("/addData", async (req, res) => {
   try {
     const dataPath = path.join(__dirname, "data.json");
     const existingData = JSON.parse(await fs.readFile(dataPath, "utf-8"));
@@ -38,6 +38,51 @@ app.post("/updateData", async (req, res) => {
     res.status(200).send("Data updated successfully");
   } catch (error) {
     console.error("Error updating data:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.post("/editData", async (req, res) => {
+  try {
+    const dataPath = path.join(__dirname, "data.json");
+    const existingData = JSON.parse(await fs.readFile(dataPath, "utf-8"));
+
+    const updatedData = req.body;
+    const index = existingData.findIndex(
+      (employee) => employee.employeeId === updatedData.employeeId
+    );
+
+    if (index !== -1) {
+      existingData[index] = updatedData;
+      await fs.writeFile(dataPath, JSON.stringify(existingData, null, 2));
+      res.status(200).send("Data updated successfully");
+    } else {
+      res.status(404).send("Record not found");
+    }
+  } catch (error) {
+    console.error("Error updating data:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.post("/deleteData", async (req, res) => {
+  try {
+    const { employeeId } = req.body;
+    const dataPath = path.join(__dirname, "data.json");
+    const existingData = JSON.parse(await fs.readFile(dataPath, "utf-8"));
+
+    const newData = existingData.filter(
+      (employee) => employee.employeeId !== employeeId
+    );
+
+    if (newData.length < existingData.length) {
+      await fs.writeFile(dataPath, JSON.stringify(newData, null, 2));
+      res.status(200).send("Data deleted successfully");
+    } else {
+      res.status(404).send("Record not found");
+    }
+  } catch (error) {
+    console.error("Error deleting data:", error);
     res.status(500).send("Internal Server Error");
   }
 });

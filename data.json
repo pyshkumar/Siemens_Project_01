@@ -1,274 +1,106 @@
 [
   {
-    "employeeId": "77-1846665",
-    "firstName": "Waverley",
-    "lastName": "Haime",
-    "email": "whaime0@apple.com",
-    "contactNumber": "+86 903 550 7222",
-    "position": "Accounting"
-  },
-  {
-    "employeeId": "88-1192990",
+    "employeeId": "881192990",
     "firstName": "Carlyle",
     "lastName": "Shepherd",
     "email": "cshepherd1@artisteer.com",
-    "contactNumber": "+7 476 122 9116",
+    "contactNumber": "74761229116",
     "position": "Sales"
   },
   {
-    "employeeId": "47-7426862",
+    "employeeId": "477426862",
     "firstName": "Reggie",
     "lastName": "Godlee",
     "email": "rgodlee2@behance.net",
-    "contactNumber": "+86 431 134 0925",
+    "contactNumber": "864311340925",
     "position": "Legal"
   },
   {
-    "employeeId": "70-6253818",
+    "employeeId": "706253818",
     "firstName": "Gavrielle",
     "lastName": "Kneale",
     "email": "gkneale3@spiegel.de",
-    "contactNumber": "+86 559 597 7575",
+    "contactNumber": "865595977575",
     "position": "Support"
   },
   {
-    "employeeId": "26-5722444",
+    "employeeId": "265722444",
     "firstName": "Pen",
     "lastName": "Wills",
     "email": "pwills4@uiuc.edu",
-    "contactNumber": "+62 407 900 5923",
+    "contactNumber": "624079005923",
     "position": "Human Resources"
   },
   {
-    "employeeId": "33-7152182",
+    "employeeId": "337152182",
     "firstName": "Bartholomew",
     "lastName": "Hutfield",
     "email": "bhutfield5@slideshare.net",
-    "contactNumber": "+55 947 886 0787",
+    "contactNumber": "559478860787",
     "position": "Support"
   },
   {
-    "employeeId": "17-8311759",
-    "firstName": "Perry",
-    "lastName": "Headrick",
-    "email": "pheadrick6@latimes.com",
-    "contactNumber": "+7 805 244 4456",
-    "position": "Marketing"
-  },
-  {
-    "employeeId": "22-4340850",
-    "firstName": "Cart",
-    "lastName": "MacKibbon",
-    "email": "cmackibbon7@ftc.gov",
-    "contactNumber": "+7 377 952 0627",
-    "position": "Research and Development"
-  },
-  {
-    "employeeId": "12-8137111",
-    "firstName": "Dell",
-    "lastName": "Leahair",
-    "email": "dleahair8@domainmarket.com",
-    "contactNumber": "+62 821 940 8448",
-    "position": "Human Resources"
-  },
-  {
-    "employeeId": "36-1653845",
+    "employeeId": "361653845",
     "firstName": "Fraze",
     "lastName": "Dooney",
     "email": "fdooney9@pinterest.com",
-    "contactNumber": "+63 777 337 6181",
-    "position": "Training"
+    "contactNumber": "8279999999",
+    "position": "Sr.Training officer"
   },
   {
-    "employeeId": "52-6696513",
+    "employeeId": "526696513",
     "firstName": "Gerty",
     "lastName": "Van der Baaren",
     "email": "gvanderbaarena@vistaprint.com",
-    "contactNumber": "+261 843 924 8493",
+    "contactNumber": "2618439248493",
     "position": "Marketing"
   },
   {
-    "employeeId": "31-1450049",
+    "employeeId": "311450049",
     "firstName": "Rossie",
     "lastName": "Mayne",
     "email": "rmayneb@adobe.com",
-    "contactNumber": "+63 430 990 5821",
-    "position": "Business Development"
+    "contactNumber": "634309905821",
+    "position": "Human Resources"
   },
   {
-    "employeeId": "97-3040624",
+    "employeeId": "973040624",
     "firstName": "Verla",
     "lastName": "Schroder",
     "email": "vschroderc@google.ca",
-    "contactNumber": "+63 173 386 9279",
+    "contactNumber": "631733869279",
     "position": "Legal"
   },
   {
-    "employeeId": "89-2306755",
+    "employeeId": "892306755",
     "firstName": "Allard",
     "lastName": "Elgey",
     "email": "aelgeyd@google.fr",
-    "contactNumber": "+86 956 463 4687",
+    "contactNumber": "869564634687",
     "position": "Legal"
   },
   {
-    "employeeId": "60-2895098",
+    "employeeId": "602895098",
     "firstName": "Brenna",
     "lastName": "Rasp",
     "email": "braspe@posterous.com",
-    "contactNumber": "+212 593 203 7140",
+    "contactNumber": "2125932037140",
     "position": "Sales"
   },
   {
-    "employeeId": "128137111",
-    "firstName": "Dell",
+    "employeeId": "3231",
+    "firstName": "poasdia",
     "lastName": "",
-    "email": "",
+    "email": "asdsad@asda",
     "contactNumber": "",
     "position": ""
   },
   {
-    "employeeId": "128137111",
-    "firstName": "dell",
-    "lastName": "",
-    "email": "",
-    "contactNumber": "",
-    "position": ""
-  },
-  {
-    "employeeId": "128137111",
-    "firstName": "Dell",
-    "lastName": "",
-    "email": "",
-    "contactNumber": "",
-    "position": ""
-  },
-  {
-    "employeeId": "128137111",
-    "firstName": "delll",
-    "lastName": "",
-    "email": "",
-    "contactNumber": "",
-    "position": ""
-  },
-  {
-    "employeeId": "128137111",
-    "firstName": "sasdsad",
-    "lastName": "",
-    "email": "",
-    "contactNumber": "",
-    "position": ""
-  },
-  {
-    "employeeId": "1111111",
-    "firstName": "sadad",
-    "lastName": "",
-    "email": "",
-    "contactNumber": "",
-    "position": ""
-  },
-  {
-    "employeeId": "00000000",
-    "firstName": "oUSADSAD",
-    "lastName": "",
-    "email": "",
-    "contactNumber": "",
-    "position": ""
-  },
-  {
-    "employeeId": "20103336",
-    "firstName": "piyush",
-    "lastName": "",
-    "email": "",
-    "contactNumber": "",
-    "position": ""
-  },
-  {
-    "employeeId": "123123123",
-    "firstName": "asdasd",
-    "lastName": "",
-    "email": "",
-    "contactNumber": "",
-    "position": ""
-  },
-  {
-    "employeeId": "201033365",
-    "firstName": "dsajdlasjd",
-    "lastName": "",
-    "email": "",
-    "contactNumber": "",
-    "position": ""
-  },
-  {
-    "employeeId": "213123",
-    "firstName": "asdsada",
-    "lastName": "s",
-    "email": "",
-    "contactNumber": "",
-    "position": ""
-  },
-  {
-    "employeeId": "22222",
-    "firstName": "s2s2",
-    "lastName": "",
-    "email": "",
-    "contactNumber": "",
-    "position": ""
-  },
-  {
-    "employeeId": "0",
-    "firstName": "smkak",
-    "lastName": "",
-    "email": "",
-    "contactNumber": "",
-    "position": ""
-  },
-  {
-    "employeeId": "000",
-    "firstName": "ss",
-    "lastName": "",
-    "email": "",
-    "contactNumber": "",
-    "position": ""
-  },
-  {
-    "employeeId": "213",
-    "firstName": "123",
-    "lastName": "",
-    "email": "",
-    "contactNumber": "",
-    "position": ""
-  },
-  {
-    "employeeId": "0000",
-    "firstName": "sad",
-    "lastName": "",
-    "email": "",
-    "contactNumber": "",
-    "position": ""
-  },
-  {
-    "employeeId": "32131",
-    "firstName": "sadasd",
-    "lastName": "",
-    "email": "sad@sadasd",
-    "contactNumber": "",
-    "position": ""
-  },
-  {
-    "employeeId": "222",
-    "firstName": "Piyush",
-    "lastName": "",
-    "email": "",
-    "contactNumber": "",
-    "position": ""
-  },
-  {
-    "employeeId": "20103337",
-    "firstName": "piyush",
-    "lastName": "",
-    "email": "",
-    "contactNumber": "",
-    "position": ""
+    "employeeId": "20103338",
+    "firstName": "hARSHUL",
+    "lastName": "VARSHNEY",
+    "email": "HARSHU@KING",
+    "contactNumber": "888888888",
+    "position": "tECHNICALINTER"
   }
 ]
