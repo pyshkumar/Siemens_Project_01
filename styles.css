@@ -12,7 +12,7 @@ h1 {
   color: #333;
 }
 /* Tables styles */
-table {
+#employeeTable {
   width: 100%;
   border-collapse: collapse;
   border-style: outset;
@@ -44,8 +44,7 @@ th {
   padding: 2px;
 }
 
-i:hover {
-  color: grey;
+.icond:hover {
   cursor: pointer;
 }
 
@@ -69,6 +68,9 @@ button:hover {
   background-color: #1b1b1b;
 }
 
+.man-star {
+  color: red;
+}
 /* Create Modal styles */
 .modal {
   display: none;
@@ -88,10 +90,11 @@ button:hover {
   padding: 20px;
   border: 3px solid black;
   width: 24%;
+  margin-top: 0.5px;
 }
 
 .createModalFields {
-  width: 300px;
+  width: 355px;
   height: 100%;
   align-items: center;
 }
@@ -100,6 +103,52 @@ button:hover {
   position: relative;
   right: 2px;
   margin: 2px;
+}
+
+.createModalTable {
+  width: 100%;
+  border-collapse: collapse;
+  border-style: none;
+  border-color: black;
+}
+.createModalTable td {
+  padding: 5px;
+  border-style: none;
+  border-color: #8d5524;
+  border-width: 4px;
+  text-align: left;
+  align-content: baseline;
+  height: 41px;
+}
+
+.createModalTable input {
+  width: 140px;
+}
+
+#cM-eid-i-evm {
+  display: none;
+  color: red;
+  font-weight: bold;
+}
+
+#cM-fn-i-evm {
+  display: none;
+  color: red;
+  font-weight: bold;
+}
+
+#cM-em-i-evm {
+  display: none;
+  color: red;
+  font-weight: bold;
+}
+.createModalButtons {
+  padding-top: 10px;
+  padding-left: 57px;
+}
+
+.createModalHeading {
+  padding-left: 100px;
 }
 
 /* Update Modal styles */
@@ -121,10 +170,11 @@ button:hover {
   padding: 20px;
   border: 3px solid black;
   width: 24%;
+  margin-top: 0.5px;
 }
 
 #updateModal .createModalFields {
-  width: 300px;
+  width: 355px;
   height: 100%;
   align-items: center;
 }
@@ -135,6 +185,53 @@ button:hover {
   margin: 2px;
 }
 
+.updateModalTable {
+  width: 100%;
+  border-collapse: collapse;
+  border-style: none;
+  border-color: black;
+}
+
+.updateModalTable td {
+  padding: 5px;
+  border-style: none;
+  border-color: #8d5524;
+  border-width: 4px;
+  text-align: left;
+  align-content: baseline;
+  height: 41px;
+}
+
+.updateModalTable input {
+  width: 140px;
+}
+
+.updateModalButtons {
+  padding-top: 10px;
+  padding-left: 57px;
+}
+
+.updateModalHeading {
+  padding-left: 90px;
+}
+
+#uM-eid-i-evm {
+  display: none;
+  color: red;
+  font-weight: bold;
+}
+
+#uM-fn-i-evm {
+  display: none;
+  color: red;
+  font-weight: bold;
+}
+
+#uM-em-i-evm {
+  display: none;
+  color: red;
+  font-weight: bold;
+}
 /* Delete Modal styles */
 #deleteModal {
   display: none;
@@ -166,6 +263,15 @@ button:hover {
   margin: 2px;
 }
 
+.deleteModalButtons {
+  padding-top: 10px;
+  padding-left: 80px;
+}
+
+.deleteModalHeading {
+  padding-left: 120px;
+}
+
 /* Action column icons styles */
 .editIcon {
   cursor: pointer;
@@ -177,6 +283,12 @@ button:hover {
   border-collapse: collapse;
   border-style: outset;
   border-color: black;
+}
+
+.editIcon:hover,
+.deleteIcon:hover {
+  cursor: pointer;
+  color: grey;
 }
 
 .deleteIcon {

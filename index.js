@@ -14,27 +14,27 @@ document.addEventListener("DOMContentLoaded", async function () {
         icon
           .querySelector("i")
           .classList.remove("fa-arrow-up", "fa-arrow-down");
-        icon.querySelector("i").classList.add("fa-arrow-up");
-        icon.style.color = "#1b1b1b";
       });
 
       const icon = document.getElementById(`_${sortField}`);
-      icon.style.color = "white";
       if (!sortAscending) {
         icon.querySelector("i").classList.remove("fa-arrow-up");
         icon.querySelector("i").classList.add("fa-arrow-down");
       }
+      if (sortAscending) {
+        icon.querySelector("i").classList.remove("fa-arrow-down");
+        icon.querySelector("i").classList.add("fa-arrow-up");
+      }
     };
 
-    console.log(typeof data[0].employeeId);
-
     const populateTable = () => {
-      data.sort((a, b) =>
-        sortAscending
-          ? a[sortField].localeCompare(b[sortField])
-          : b[sortField].localeCompare(a[sortField])
-      );
-
+      if (sortField !== 0) {
+        data.sort((a, b) =>
+          sortAscending
+            ? a[sortField].localeCompare(b[sortField])
+            : b[sortField].localeCompare(a[sortField])
+        );
+      }
       tableBody.innerHTML = "";
 
       data.forEach((employee) => {
@@ -102,8 +102,40 @@ document.addEventListener("DOMContentLoaded", async function () {
       .getElementById("_position")
       .addEventListener("click", () => setSortingField("position"));
 
+    const infoNotify = (message) => {
+      Toastify({
+        text: message,
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "top",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "linear-gradient(to right, #74D680, #378B29)",
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
+    };
+
+    const errorNotify = (message) => {
+      Toastify({
+        text: message,
+        duration: 1500,
+        newWindow: false,
+        close: true,
+        gravity: "top",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "linear-gradient(to right,#A00000 , #C62128)",
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
+    };
+
     //Function to validate entered data
-    const validateData = (formData) => {
+    const validateData = (formData, modalType) => {
       const {
         employeeId,
         firstName,
@@ -118,16 +150,27 @@ document.addEventListener("DOMContentLoaded", async function () {
       );
       let result = regex.test(email);
 
-      //Toastify-js
-      if (!employeeId || !firstName) {
-        alert("Employee ID and First Name are mandatory field.");
+      const eid = document.getElementById(`${modalType}-eid-i-evm`);
+      const em = document.getElementById(`${modalType}-em-i-evm`);
+      const fn = document.getElementById(`${modalType}-fn-i-evm`);
+
+      if (!employeeId) {
+        eid.style.display = "block";
         return false;
       }
+      eid.style.display = "none";
+
+      if (!firstName) {
+        fn.style.display = "block";
+        return false;
+      }
+      fn.style.display = "none";
 
       if (!result) {
-        alert("Enter a valid Email.");
+        em.style.display = "block";
         return false;
       }
+      em.style.display = "none";
 
       return true;
     };
@@ -155,7 +198,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           position: document.getElementById("CreateModalPosition").value,
         };
 
-        if (!validateData(formData)) {
+        if (!validateData(formData, "cM")) {
           return;
         }
 
@@ -187,13 +230,28 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
         if (response.ok) {
           console.log("Data updated successfully!");
+          await errorNotify("Employee Record Added");
           Createmodal.style.display = "none";
           populateTable();
         } else {
           console.error("Failed to update data:");
+          errorNotify("Failed to add employee record");
+          const createForm = document.getElementById("modalForm");
+          const createFormInput = createForm.querySelectorAll("input");
+          createFormInput.forEach((input) => {
+            input.value = "";
+          });
+          Createmodal.style.display = "none";
         }
       } catch (error) {
-        console.error("Error updating data:", error);
+        console.error("Failed to add employee record");
+        errorNotify("Failed to add employee record2");
+        const createForm = document.getElementById("modalForm");
+        const createFormInput = createForm.querySelectorAll("input");
+        createFormInput.forEach((input) => {
+          input.value = "";
+        });
+        Createmodal.style.display = "none";
       }
     });
 
@@ -203,6 +261,12 @@ document.addEventListener("DOMContentLoaded", async function () {
       createFormInput.forEach((input) => {
         input.value = "";
       });
+      const eid = document.getElementById("cM-eid-i-evm");
+      const em = document.getElementById("cM-em-i-evm");
+      const fn = document.getElementById("cM-fn-i-evm");
+      em.style.display = "none";
+      eid.style.display = "none";
+      fn.style.display = "none";
       Createmodal.style.display = "none";
     });
 
@@ -238,7 +302,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           position: document.getElementById("UpdateModalPosition").value,
         };
 
-        if (!validateData(formData)) {
+        if (!validateData(formData, "uM")) {
           return;
         }
 
@@ -251,18 +315,29 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
 
         if (response.ok) {
-          console.log("Data updated successfully!");
+          console.log("Employee record updated successfully");
+          infoNotify("Employee record updated successfully");
           updateModal.style.display = "none";
           populateTable();
         } else {
-          console.error("Failed to update data:");
+          console.error("Error updating data:", error);
+          errorNotify("Failed to update employee record");
+          updateModal.style.display = "none";
         }
       } catch (error) {
-        console.error("Error updating data:", error);
+        console.error("Failed to update employee record", error);
+        errorNotify("Failed to update employee record");
+        updateModal.style.display = "none";
       }
     });
 
     cancelUpdateModal.addEventListener("click", () => {
+      const eid = document.getElementById("uM-eid-i-evm");
+      const em = document.getElementById("uM-em-i-evm");
+      const fn = document.getElementById("uM-fn-i-evm");
+      em.style.display = "none";
+      eid.style.display = "none";
+      fn.style.display = "none";
       updateModal.style.display = "none";
     });
 
@@ -279,26 +354,34 @@ document.addEventListener("DOMContentLoaded", async function () {
     };
 
     confirmDeleteBtn.addEventListener("click", async () => {
-      const employeeId = document
-        .getElementById("deleteModalMessage")
-        .textContent.split(" ")
-        .pop();
+      try {
+        const employeeId = document
+          .getElementById("deleteModalMessage")
+          .textContent.split(" ")
+          .pop();
 
-      console.log(employeeId);
-      const response = await fetch("http://localhost:3000/deleteData", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ employeeId }),
-      });
+        const response = await fetch("http://localhost:3000/deleteData", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ employeeId }),
+        });
 
-      if (response.ok) {
-        console.log("Data deleted successfully!");
+        if (response.ok) {
+          console.log("Employee record deleted successfully");
+          errorNotify("Employee record deleted successfully");
+          deleteModal.style.display = "none";
+          populateTable();
+        } else {
+          console.error("Failed to delete employee record");
+          errorNotify("Failed to delete employee record");
+          deleteModal.style.display = "none";
+        }
+      } catch (error) {
+        console.error("Failed to delete employee record", error);
+        errorNotify("Failed to delete employee record");
         deleteModal.style.display = "none";
-        populateTable();
-      } else {
-        console.error("Failed to delete data:");
       }
     });
 

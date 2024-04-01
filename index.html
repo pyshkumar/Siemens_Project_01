@@ -3,9 +3,18 @@
   <head>
     <title>Employee Data</title>
     <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
     <script
       src="https://kit.fontawesome.com/8ea7e85408.js"
       crossorigin="anonymous"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
     ></script>
     <script src="index.js"></script>
   </head>
@@ -22,38 +31,38 @@
         <thead>
           <tr>
             <th>
-              Employee ID
               <span id="_employeeId" class="icond">
+                Employee ID
                 <i class="fa-solid fa-arrow-up"></i>
               </span>
             </th>
             <th>
-              First Name
               <span id="_firstName" class="icond">
+                First Name
                 <i class="fa-solid fa-arrow-up"></i>
               </span>
             </th>
             <th>
-              Last Name
               <span id="_lastName" class="icond">
+                Last Name
                 <i class="fa-solid fa-arrow-up"></i>
               </span>
             </th>
             <th>
-              Email ID
               <span id="_email" class="icond">
+                Email ID
                 <i class="fa-solid fa-arrow-up"></i>
               </span>
             </th>
             <th>
-              Contact No.
               <span id="_contactNumber" class="icond">
+                Contact No.
                 <i class="fa-solid fa-arrow-up"></i>
               </span>
             </th>
             <th>
-              Position
               <span id="_position" class="icond">
+                Position
                 <i class="fa-solid fa-arrow-up"></i>
               </span>
             </th>
@@ -74,82 +83,111 @@
 
     <div id="myModal" class="modal">
       <div class="modal-content">
-        <h2 style="padding-left: 100px">Enter Data</h2>
+        <h2 class="createModalHeading">Enter Data</h2>
 
         <form id="modalForm">
           <div class="createModalFields">
-            <label for="CreateModalEmployeeId" class="createModalitems"
-              >Employee ID <span style="color: red">*</span></label
-            >
-            <input
-              class="createModalitems"
-              type="number"
-              id="CreateModalEmployeeId"
-              name="CreateModalEmployeeId"
-              required
-              style="left: 11px"
-            />
+            <table class="createModalTable">
+              <tr>
+                <td>
+                  <label for="CreateModalEmployeeId" class="createModalitems"
+                    >Employee ID <span class="man-star">*</span></label
+                  >
+                </td>
 
-            <label for="CreateModalFirstName" class="createModalitems"
-              >First Name <span style="color: red">*</span></label
-            >&nbsp;&nbsp;
-            <input
-              class="createModalitems"
-              type="text"
-              id="CreateModalFirstName"
-              name="CreateModalFirstName"
-              required
-              style="left: 18px"
-            />
-            <label for="CreateModalLastName" class="createModalitems"
-              >Last Name &emsp14;&emsp;&emsp14;
-            </label>
-            <input
-              type="text"
-              id="CreateModalLastName"
-              name="CreateModalLastName"
-              class="createModalitems"
-              style="left: 11px"
-            />
-
-            <label for="CreateModalEmail" class="createModalitems"
-              >Email &emsp;&emsp;
-            </label>
-            <input
-              type="email"
-              oninvalid="this.setCustomValidity('Enter a valid email address')"
-              oninput="this.setCustomValidity('')"
-              title="Enter a valid email address"
-              id="CreateModalEmail"
-              name="CreateModalEmail"
-              class="createModalitems"
-              style="left: 35px"
-            />
-
-            <label for="CreateModalContactNumber" class="createModalitems"
-              >Contact Number
-            </label>
-            <input
-              type="number"
-              id="CreateModalContactNumber"
-              name="CreateModalContactNumber"
-              class="createModalitems"
-              style="left: 3px"
-            />
-
-            <label for="CreateModalPosition" class="createModalitems"
-              >Position
-            </label>
-            <input
-              type="text"
-              id="CreateModalPosition"
-              name="CreateModalPosition"
-              class="createModalitems"
-              style="left: 57px"
-            />
+                <td>
+                  <input
+                    class="createModalitems"
+                    type="number"
+                    id="CreateModalEmployeeId"
+                    name="CreateModalEmployeeId"
+                    required
+                  /><br />
+                  <small id="cM-eid-i-evm">Enter the Employee ID</small>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="CreateModalFirstName" class="createModalitems"
+                    >First Name <span class="man-star">*</span></label
+                  >
+                </td>
+                <td>
+                  <input
+                    class="createModalitems"
+                    type="text"
+                    id="CreateModalFirstName"
+                    name="CreateModalFirstName"
+                    required
+                  /><br />
+                  <small id="cM-fn-i-evm">Enter the First Name</small>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="CreateModalLastName" class="createModalitems"
+                    >Last Name
+                  </label>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    id="CreateModalLastName"
+                    name="CreateModalLastName"
+                    class="createModalitems"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="CreateModalEmail" class="createModalitems"
+                    >Email
+                  </label>
+                </td>
+                <td>
+                  <input
+                    type="email"
+                    id="CreateModalEmail"
+                    name="CreateModalEmail"
+                    class="createModalitems"
+                  /><br />
+                  <small id="cM-em-i-evm">Enter a valid email </small>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="CreateModalContactNumber" class="createModalitems"
+                    >Contact Number
+                  </label>
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    id="CreateModalContactNumber"
+                    name="CreateModalContactNumber"
+                    class="createModalitems"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="CreateModalPosition" class="createModalitems"
+                    >Position
+                  </label>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    id="CreateModalPosition"
+                    name="CreateModalPosition"
+                    class="createModalitems"
+                  />
+                </td>
+              </tr>
+            </table>
           </div>
 
-          <div style="padding-top: 10px; padding-left: 57px">
+          <div class="createModalButtons">
             <button type="submit" id="submitModal">Submit</button>
             <button type="button" id="cancelModal">Cancel</button>
           </div>
@@ -160,83 +198,113 @@
 
     <div id="updateModal" class="modal">
       <div class="modal-content">
-        <h2 style="padding-left: 90px">Update Record</h2>
+        <h2 class="updateModalHeading">Update Record</h2>
 
         <form id="updateModalForm">
           <div class="createModalFields">
-            <label for="UpdateModalEmployeeId" class="createModalitems"
-              >Employee ID <span style="color: red">*</span></label
-            >
-            <input
-              class="createModalitems"
-              type="number"
-              id="UpdateModalEmployeeId"
-              name="UpdateModalEmployeeId"
-              required
-              style="left: 11px; opacity: 70%"
-              readonly
-            />
-
-            <label for="UpdateModalFirstName" class="createModalitems"
-              >First Name <span style="color: red">*</span></label
-            >&nbsp;&nbsp;
-            <input
-              class="createModalitems"
-              type="text"
-              id="UpdateModalFirstName"
-              name="UpdateModalFirstName"
-              required
-              style="left: 18px"
-            />
-            <label for="UpdateModalLastName" class="createModalitems"
-              >Last Name &emsp14;&emsp;&emsp14;
-            </label>
-            <input
-              type="text"
-              id="UpdateModalLastName"
-              name="UpdateModalLastName"
-              class="createModalitems"
-              style="left: 11px"
-            />
-
-            <label for="UpdateModalEmail" class="createModalitems"
-              >Email &emsp;&emsp;
-            </label>
-            <input
-              type="email"
-              oninvalid="this.setCustomValidity('Enter a valid email address')"
-              oninput="this.setCustomValidity('')"
-              title="Enter a valid email address"
-              id="UpdateModalEmail"
-              name="UpdateModalEmail"
-              class="createModalitems"
-              style="left: 35px"
-            />
-
-            <label for="UpdateModalContactNumber" class="createModalitems"
-              >Contact Number
-            </label>
-            <input
-              type="tel"
-              id="UpdateModalContactNumber"
-              name="UpdateModalContactNumber"
-              class="createModalitems"
-              style="left: 3px"
-            />
-
-            <label for="UpdateModalPosition" class="createModalitems"
-              >Position
-            </label>
-            <input
-              type="text"
-              id="UpdateModalPosition"
-              name="UpdateModalPosition"
-              class="createModalitems"
-              style="left: 57px"
-            />
+            <table class="updateModalTable">
+              <tr>
+                <td>
+                  <label for="UpdateModalEmployeeId" class="createModalitems"
+                    >Employee ID <span class="man-star">*</span></label
+                  >
+                </td>
+                <td class="updateModalInput">
+                  <input
+                    class="createModalitems"
+                    type="number"
+                    id="UpdateModalEmployeeId"
+                    name="UpdateModalEmployeeId"
+                    required
+                    disabled
+                  /><br />
+                  <small id="uM-eid-i-evm">Enter the Employee ID</small>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="UpdateModalFirstName" class="createModalitems"
+                    >First Name <span class="man-star">*</span></label
+                  >
+                </td>
+                <td>
+                  <input
+                    class="createModalitems"
+                    placeholder=""
+                    type="text"
+                    id="UpdateModalFirstName"
+                    name="UpdateModalFirstName"
+                    required
+                  /><br />
+                  <small id="uM-fn-i-evm">Enter the First Name</small>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="UpdateModalLastName" class="createModalitems"
+                    >Last Name
+                  </label>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    id="UpdateModalLastName"
+                    name="UpdateModalLastName"
+                    class="createModalitems"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="UpdateModalEmail" class="createModalitems"
+                    >Email
+                  </label>
+                </td>
+                <td>
+                  <input
+                    type="email"
+                    id="UpdateModalEmail"
+                    name="UpdateModalEmail"
+                    class="createModalitems"
+                  />
+                  <br />
+                  <small id="uM-em-i-evm">Enter a valid email</small>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="UpdateModalContactNumber" class="createModalitems"
+                    >Contact Number
+                  </label>
+                </td>
+                <td>
+                  <input
+                    type="tel"
+                    id="UpdateModalContactNumber"
+                    name="UpdateModalContactNumber"
+                    class="createModalitems"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="UpdateModalPosition" class="createModalitems"
+                    >Position
+                  </label>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    id="UpdateModalPosition"
+                    name="UpdateModalPosition"
+                    class="createModalitems"
+                  />
+                </td>
+              </tr>
+            </table>
           </div>
 
-          <div style="padding-top: 10px; padding-left: 57px">
+          <div class="updateModalButtons">
             <button type="submit" id="submitUpdateModal">Save</button>
             <button type="button" id="cancelUpdateModal">Cancel</button>
           </div>
@@ -247,9 +315,9 @@
 
     <div id="deleteModal" class="modal">
       <div class="modal-content">
-        <h2 style="padding-left: 120px">Delete Record</h2>
+        <h2 class="deleteModalHeading">Delete Record</h2>
         <p id="deleteModalMessage"></p>
-        <div style="padding-top: 10px; padding-left: 80px">
+        <div class="deleteModalButtons">
           <button type="button" id="confirmDeleteModal">Confirm</button>
           <button type="button" id="cancelDeleteModal">Cancel</button>
         </div>
