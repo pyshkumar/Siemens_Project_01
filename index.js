@@ -2,9 +2,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   try {
     const response = await fetch("data.json");
     let data = await response.json();
+    const oldData = [...data];
 
     const tableBody = document.getElementById("tableBody");
-    let sortField = "employeeId";
+    let sortField = "";
+    console.log(sortField, sortField.length);
     let sortAscending = true;
 
     const updateIcons = () => {
@@ -15,20 +17,21 @@ document.addEventListener("DOMContentLoaded", async function () {
           .querySelector("i")
           .classList.remove("fa-arrow-up", "fa-arrow-down");
       });
-
-      const icon = document.getElementById(`_${sortField}`);
-      if (!sortAscending) {
-        icon.querySelector("i").classList.remove("fa-arrow-up");
-        icon.querySelector("i").classList.add("fa-arrow-down");
-      }
-      if (sortAscending) {
-        icon.querySelector("i").classList.remove("fa-arrow-down");
-        icon.querySelector("i").classList.add("fa-arrow-up");
+      if (sortField.length !== 0) {
+        const icon = document.getElementById(`_${sortField}`);
+        if (!sortAscending) {
+          icon.querySelector("i").classList.remove("fa-arrow-up");
+          icon.querySelector("i").classList.add("fa-arrow-down");
+        }
+        if (sortAscending) {
+          icon.querySelector("i").classList.remove("fa-arrow-down");
+          icon.querySelector("i").classList.add("fa-arrow-up");
+        }
       }
     };
 
     const populateTable = () => {
-      if (sortField !== 0) {
+      if (sortField.length !== 0) {
         data.sort((a, b) =>
           sortAscending
             ? a[sortField].localeCompare(b[sortField])
@@ -36,7 +39,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         );
       }
       tableBody.innerHTML = "";
-
+      console.log(data);
       data.forEach((employee) => {
         const row = tableBody.insertRow();
         row.insertCell(0).textContent = employee.employeeId;
@@ -60,15 +63,22 @@ document.addEventListener("DOMContentLoaded", async function () {
         );
         actionCell.appendChild(deleteIcon);
       });
-
       updateIcons();
     };
 
     populateTable();
 
     const setSortingField = (field) => {
-      sortField = field;
-      sortAscending = !sortAscending;
+      if (sortField != field) {
+        sortField = field;
+        sortAscending = true;
+      } else if (sortField === field && sortAscending === true) {
+        sortAscending = false;
+      } else if (sortField === field && sortAscending === false) {
+        sortField = "";
+        data = [...oldData];
+      }
+
       populateTable();
     };
 
@@ -105,7 +115,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const infoNotify = (message) => {
       Toastify({
         text: message,
-        duration: 3000,
+        duration: 1700,
         newWindow: true,
         close: true,
         gravity: "top",
@@ -134,7 +144,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       }).showToast();
     };
 
-    //Function to validate entered data
+    //Function to validate entered data via modal input
     const validateData = (formData, modalType) => {
       const {
         employeeId,
@@ -213,12 +223,15 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         const data = await response2.json();
 
+        const eid = document.getElementById(`cM-eid-i-evm`);
         if (data.exists) {
-          alert(
-            "Employee ID already exists. Please enter a unique Employee ID."
-          );
+          eid.innerText = "The Employee ID already exists";
+          eid.style.display = "block";
+          console.log(eid.innerText);
           return;
         }
+        eid.innerText = "Enter the Employee ID";
+        eid.style.display = "none";
 
         //Calling server for modification of Database
         const response = await fetch("http://localhost:3000/addData", {
@@ -230,7 +243,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
         if (response.ok) {
           console.log("Data updated successfully!");
-          await errorNotify("Employee Record Added");
+          await infoNotify("Employee Record Added");
           Createmodal.style.display = "none";
           populateTable();
         } else {
@@ -245,7 +258,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
       } catch (error) {
         console.error("Failed to add employee record");
-        errorNotify("Failed to add employee record2");
+        errorNotify("Failed to add employee record");
         const createForm = document.getElementById("modalForm");
         const createFormInput = createForm.querySelectorAll("input");
         createFormInput.forEach((input) => {
@@ -313,7 +326,6 @@ document.addEventListener("DOMContentLoaded", async function () {
           },
           body: JSON.stringify(formData),
         });
-
         if (response.ok) {
           console.log("Employee record updated successfully");
           infoNotify("Employee record updated successfully");
@@ -353,7 +365,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       deleteModal.style.display = "block";
     };
 
-    confirmDeleteBtn.addEventListener("click", async () => {
+    confirmDeleteBtn.addEventListener("click", async (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       try {
         const employeeId = document
           .getElementById("deleteModalMessage")
@@ -370,7 +384,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         if (response.ok) {
           console.log("Employee record deleted successfully");
-          errorNotify("Employee record deleted successfully");
+          infoNotify("Employee record deleted successfully");
           deleteModal.style.display = "none";
           populateTable();
         } else {
