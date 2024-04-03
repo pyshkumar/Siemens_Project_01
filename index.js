@@ -2,11 +2,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   try {
     const response = await fetch("data.json");
     let data = await response.json();
-    const oldData = [...data];
+    let oldData = [...data];
 
     const tableBody = document.getElementById("tableBody");
     let sortField = "";
-    console.log(sortField, sortField.length);
     let sortAscending = true;
 
     const updateIcons = () => {
@@ -39,7 +38,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         );
       }
       tableBody.innerHTML = "";
-      console.log(data);
       data.forEach((employee) => {
         const row = tableBody.insertRow();
         row.insertCell(0).textContent = employee.employeeId;
@@ -78,13 +76,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         sortField = "";
         data = [...oldData];
       }
-
       populateTable();
     };
 
-    const toggleSortingOrder = () => {
-      sortAscending = !sortAscending;
-      populateTable();
+    const dataFetch = async () => {
+      const response = await fetch("data.json");
+      let data1 = await response.json();
+      oldData = [...data1];
+      data = [...data1];
     };
 
     // Event listeners for sorting w.r.t to any column
@@ -124,7 +123,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         style: {
           background: "linear-gradient(to right, #74D680, #378B29)",
         },
-        onClick: function () {}, // Callback after click
       }).showToast();
     };
 
@@ -140,7 +138,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         style: {
           background: "linear-gradient(to right,#A00000 , #C62128)",
         },
-        onClick: function () {}, // Callback after click
       }).showToast();
     };
 
@@ -165,6 +162,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const fn = document.getElementById(`${modalType}-fn-i-evm`);
 
       if (!employeeId) {
+        eid.innerText = "Enter the Employee ID";
         eid.style.display = "block";
         return false;
       }
@@ -243,17 +241,18 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
         if (response.ok) {
           console.log("Data updated successfully!");
-          await infoNotify("Employee Record Added");
-          Createmodal.style.display = "none";
+          infoNotify("Employee Record Added");
+          await dataFetch();
           populateTable();
-        } else {
-          console.error("Failed to update data:");
-          errorNotify("Failed to add employee record");
           const createForm = document.getElementById("modalForm");
           const createFormInput = createForm.querySelectorAll("input");
           createFormInput.forEach((input) => {
             input.value = "";
           });
+          Createmodal.style.display = "none";
+        } else {
+          console.error("Failed to update data:");
+          errorNotify("Failed to add employee record");
           Createmodal.style.display = "none";
         }
       } catch (error) {
@@ -330,6 +329,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           console.log("Employee record updated successfully");
           infoNotify("Employee record updated successfully");
           updateModal.style.display = "none";
+          await dataFetch();
           populateTable();
         } else {
           console.error("Error updating data:", error);
@@ -386,6 +386,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           console.log("Employee record deleted successfully");
           infoNotify("Employee record deleted successfully");
           deleteModal.style.display = "none";
+          await dataFetch();
           populateTable();
         } else {
           console.error("Failed to delete employee record");
