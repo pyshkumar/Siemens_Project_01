@@ -189,6 +189,15 @@ document.addEventListener("DOMContentLoaded", async function () {
     const submitModal = document.getElementById("submitModal");
     const cancelModal = document.getElementById("cancelModal");
 
+    const clearCreateModalInput = () => {
+      const createForm = document.getElementById("modalForm");
+      const createFormInput = createForm.querySelectorAll("input");
+      createFormInput.forEach((input) => {
+        input.value = "";
+      });
+      Createmodal.style.display = "none";
+    };
+
     createBtn.addEventListener("click", () => {
       Createmodal.style.display = "block";
     });
@@ -210,7 +219,6 @@ document.addEventListener("DOMContentLoaded", async function () {
           return;
         }
 
-        // Calling server to check if employeeId already exists
         const response2 = await fetch("http://localhost:3000/checkEmployeeId", {
           method: "POST",
           headers: {
@@ -240,46 +248,31 @@ document.addEventListener("DOMContentLoaded", async function () {
           body: JSON.stringify(formData),
         });
         if (response.ok) {
-          console.log("Data updated successfully!");
-          infoNotify("Employee Record Added");
+          console.log("Employee Record added successfully");
+          infoNotify("Employee Record added successfully");
           await dataFetch();
           populateTable();
-          const createForm = document.getElementById("modalForm");
-          const createFormInput = createForm.querySelectorAll("input");
-          createFormInput.forEach((input) => {
-            input.value = "";
-          });
-          Createmodal.style.display = "none";
+          clearCreateModalInput();
         } else {
-          console.error("Failed to update data:");
+          console.error("Failed to add employee record");
           errorNotify("Failed to add employee record");
           Createmodal.style.display = "none";
         }
       } catch (error) {
         console.error("Failed to add employee record");
         errorNotify("Failed to add employee record");
-        const createForm = document.getElementById("modalForm");
-        const createFormInput = createForm.querySelectorAll("input");
-        createFormInput.forEach((input) => {
-          input.value = "";
-        });
-        Createmodal.style.display = "none";
+        clearCreateModalInput();
       }
     });
 
     cancelModal.addEventListener("click", () => {
-      const createForm = document.getElementById("modalForm");
-      const createFormInput = createForm.querySelectorAll("input");
-      createFormInput.forEach((input) => {
-        input.value = "";
-      });
       const eid = document.getElementById("cM-eid-i-evm");
       const em = document.getElementById("cM-em-i-evm");
       const fn = document.getElementById("cM-fn-i-evm");
       em.style.display = "none";
       eid.style.display = "none";
       fn.style.display = "none";
-      Createmodal.style.display = "none";
+      clearCreateModalInput();
     });
 
     // Update Modal functionality
@@ -374,6 +367,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           .textContent.split(" ")
           .pop();
 
+        console.log(document.getElementById("deleteModalMessage"));
         const response = await fetch("http://localhost:3000/deleteData", {
           method: "POST",
           headers: {

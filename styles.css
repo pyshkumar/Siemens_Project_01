@@ -68,6 +68,16 @@ button:hover {
   background-color: #1b1b1b;
 }
 
+#_employeeId {
+  width: 138px;
+}
+#_firstName {
+  width: 95px;
+}
+#_lastName {
+  width: 99px;
+}
+
 .man-star {
   color: red;
 }
@@ -303,4 +313,10 @@ button:hover {
   border-collapse: collapse;
   border-style: outset;
   border-color: black;
+}
+
+.prevent-select {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
