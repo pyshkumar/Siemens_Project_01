@@ -1,7 +1,55 @@
 document.addEventListener("DOMContentLoaded", async function () {
   try {
+    const nr_msg = document.getElementById("nr-msg");
+    const employeeTable = document.getElementById("employeeTable");
+    employeeTable.style.display = "none";
+    nr_msg.style.display = "block";
+
+    const employeeTableColumns = [
+      "employeeId",
+      "firstName",
+      "lastName",
+      "email",
+      "contactNumber",
+      "position",
+    ];
+
+    // Function to fetch number of records from the server
+    const checkDB = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/checkDB", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        return data.numRecords;
+      } catch (error) {
+        console.error("Error checking database:", error);
+        return 0;
+      }
+    };
+
+    // Fetch number of records from the server
+    const numRecords = await checkDB();
+    if (numRecords !== 0) {
+      employeeTable.style.display = "table";
+      nr_msg.style.display = "none";
+    }
+    // if (!response.ok) {
+    //   const response2 = await fetch("http://localhost:3000/createDB", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({ content: "[]" }),
+    //   });
+    // }
+
     const response = await fetch("data.json");
     let data = await response.json();
+
     let oldData = [...data];
 
     const tableBody = document.getElementById("tableBody");
@@ -15,15 +63,16 @@ document.addEventListener("DOMContentLoaded", async function () {
         icon
           .querySelector("i")
           .classList.remove("fa-arrow-up", "fa-arrow-down");
+        icon.querySelector("i").classList.add("fa-sort");
       });
       if (sortField.length !== 0) {
         const icon = document.getElementById(`_${sortField}`);
         if (!sortAscending) {
-          icon.querySelector("i").classList.remove("fa-arrow-up");
+          icon.querySelector("i").classList.remove("fa-arrow-up", "fa-sort");
           icon.querySelector("i").classList.add("fa-arrow-down");
         }
         if (sortAscending) {
-          icon.querySelector("i").classList.remove("fa-arrow-down");
+          icon.querySelector("i").classList.remove("fa-arrow-down", "fa-sort");
           icon.querySelector("i").classList.add("fa-arrow-up");
         }
       }
@@ -40,14 +89,22 @@ document.addEventListener("DOMContentLoaded", async function () {
       tableBody.innerHTML = "";
       data.forEach((employee) => {
         const row = tableBody.insertRow();
-        row.insertCell(0).textContent = employee.employeeId;
-        row.insertCell(1).textContent = employee.firstName;
-        row.insertCell(2).textContent = employee.lastName;
-        row.insertCell(3).textContent = employee.email;
-        row.insertCell(4).textContent = employee.contactNumber;
-        row.insertCell(5).textContent = employee.position;
+        let index = 0;
+        for (index; index < employeeTableColumns.length; index++) {
+          row.insertCell(index).textContent =
+            employee[`${employeeTableColumns[index]}`];
+        }
+
+        //Old method
+        // const row = tableBody.insertRow();
+        // row.insertCell(0).textContent = employee.employeeId;
+        // row.insertCell(1).textContent = employee.firstName;
+        // row.insertCell(2).textContent = employee.lastName;
+        // row.insertCell(3).textContent = employee.email;
+        // row.insertCell(4).textContent = employee.contactNumber;
+        // row.insertCell(5).textContent = employee.position;
         // Action column with icons
-        const actionCell = row.insertCell(6);
+        const actionCell = row.insertCell(index);
 
         const editIcon = document.createElement("i");
         editIcon.classList.add("fa-solid", "fa-pen", "editIcon");
@@ -82,34 +139,49 @@ document.addEventListener("DOMContentLoaded", async function () {
     const dataFetch = async () => {
       const response = await fetch("data.json");
       let data1 = await response.json();
+      const numRecords = await checkDB();
+      if (numRecords === 0) {
+        employeeTable.style.display = "none";
+        nr_msg.style.display = "block";
+      } else {
+        employeeTable.style.display = "table";
+        nr_msg.style.display = "none";
+      }
+
       oldData = [...data1];
       data = [...data1];
     };
 
     // Event listeners for sorting w.r.t to any column
-    document
-      .getElementById("_employeeId")
-      .addEventListener("click", () => setSortingField("employeeId"));
+    employeeTableColumns.forEach((element) => {
+      document
+        .getElementById(`_${element}`)
+        .addEventListener("click", () => setSortingField(`${element}`));
+    });
+    //old method
+    // document
+    //   .getElementById("_employeeId")
+    //   .addEventListener("click", () => setSortingField("employeeId"));
 
-    document
-      .getElementById("_firstName")
-      .addEventListener("click", () => setSortingField("firstName"));
+    // document
+    //   .getElementById("_firstName")
+    //   .addEventListener("click", () => setSortingField("firstName"));
 
-    document
-      .getElementById("_lastName")
-      .addEventListener("click", () => setSortingField("lastName"));
+    // document
+    //   .getElementById("_lastName")
+    //   .addEventListener("click", () => setSortingField("lastName"));
 
-    document
-      .getElementById("_email")
-      .addEventListener("click", () => setSortingField("email"));
+    // document
+    //   .getElementById("_email")
+    //   .addEventListener("click", () => setSortingField("email"));
 
-    document
-      .getElementById("_contactNumber")
-      .addEventListener("click", () => setSortingField("contactNumber"));
+    // document
+    //   .getElementById("_contactNumber")
+    //   .addEventListener("click", () => setSortingField("contactNumber"));
 
-    document
-      .getElementById("_position")
-      .addEventListener("click", () => setSortingField("position"));
+    // document
+    //   .getElementById("_position")
+    //   .addEventListener("click", () => setSortingField("position"));
 
     const infoNotify = (message) => {
       Toastify({
@@ -160,6 +232,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const eid = document.getElementById(`${modalType}-eid-i-evm`);
       const em = document.getElementById(`${modalType}-em-i-evm`);
       const fn = document.getElementById(`${modalType}-fn-i-evm`);
+      const cn = document.getElementById(`${modalType}-cn-i-evm`);
 
       if (!employeeId) {
         eid.innerText = "Enter the Employee ID";
@@ -179,6 +252,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         return false;
       }
       em.style.display = "none";
+
+      // if (contactNumber.length !== null || contactNumber !== 10) {
+      //   console.log(contactNumber.length);
+      //   cn.style.display = "block";
+      //   return false;
+      // }
+      // cn.style.display = "none";
 
       return true;
     };
@@ -203,7 +283,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     submitModal.addEventListener("click", async (event) => {
-      event.preventDefault();
       try {
         const formData = {
           employeeId: document.getElementById("CreateModalEmployeeId").value,
@@ -269,9 +348,13 @@ document.addEventListener("DOMContentLoaded", async function () {
       const eid = document.getElementById("cM-eid-i-evm");
       const em = document.getElementById("cM-em-i-evm");
       const fn = document.getElementById("cM-fn-i-evm");
+      const cn = document.getElementById("cM-cn-i-evm");
+
       em.style.display = "none";
       eid.style.display = "none";
       fn.style.display = "none";
+      cn.style.display = "none";
+
       clearCreateModalInput();
     });
 
@@ -294,8 +377,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       updateModal.style.display = "block";
     };
 
-    submitUpdateModal.addEventListener("click", async (event) => {
-      event.preventDefault();
+    submitUpdateModal.addEventListener("click", async () => {
       try {
         const formData = {
           employeeId: document.getElementById("UpdateModalEmployeeId").value,
@@ -340,9 +422,13 @@ document.addEventListener("DOMContentLoaded", async function () {
       const eid = document.getElementById("uM-eid-i-evm");
       const em = document.getElementById("uM-em-i-evm");
       const fn = document.getElementById("uM-fn-i-evm");
+      const cn = document.getElementById("uM-cn-i-evm");
+
       em.style.display = "none";
       eid.style.display = "none";
       fn.style.display = "none";
+      cn.style.display = "none";
+
       updateModal.style.display = "none";
     });
 
@@ -359,15 +445,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     };
 
     confirmDeleteBtn.addEventListener("click", async (event) => {
-      event.preventDefault();
-      event.stopPropagation();
       try {
         const employeeId = document
           .getElementById("deleteModalMessage")
           .textContent.split(" ")
           .pop();
 
-        console.log(document.getElementById("deleteModalMessage"));
         const response = await fetch("http://localhost:3000/deleteData", {
           method: "POST",
           headers: {

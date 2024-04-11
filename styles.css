@@ -13,6 +13,7 @@ h1 {
 }
 /* Tables styles */
 #employeeTable {
+  display: table;
   width: 100%;
   border-collapse: collapse;
   border-style: outset;
@@ -77,8 +78,23 @@ button:hover {
 #_lastName {
   width: 99px;
 }
+#_position {
+  width: 109px;
+}
+#_contactNumber {
+  width: 119px;
+}
+#_email {
+  width: 115px;
+}
 
 .man-star {
+  color: red;
+}
+
+#nr-msg {
+  display: none;
+  font-size: 3rem;
   color: red;
 }
 
@@ -149,6 +165,12 @@ button:hover {
 }
 
 #cM-em-i-evm {
+  display: none;
+  color: red;
+  font-weight: bold;
+}
+
+#cM-cn-i-evm {
   display: none;
   color: red;
   font-weight: bold;
@@ -239,6 +261,12 @@ button:hover {
 }
 
 #uM-em-i-evm {
+  display: none;
+  color: red;
+  font-weight: bold;
+}
+
+#uM-cn-i-evm {
   display: none;
   color: red;
   font-weight: bold;

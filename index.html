@@ -23,6 +23,7 @@
       <h1>Employees Data Management System</h1>
       <div class="buttons-container">
         <button id="createBtn">Add Employee</button>
+        <h1 id="nr-msg">No Records</h1>
       </div>
 
       <!-- The Table -->
@@ -33,37 +34,37 @@
             <th user-select: none;>
               <div id="_employeeId" class="icond prevent-select">
                 Employee ID
-                <i class="sortCarrot fa-solid fa-arrow-up"></i>
+                <i class="sortCarrot fa-solid fa-sort"></i>
               </div>
             </th>
             <th>
               <div id="_firstName" class="icond prevent-select">
                 First Name
-                <i class="sortCarrot fa-solid fa-arrow-up"></i>
+                <i class="sortCarrot fa-solid fa-sort"></i>
               </div>
             </th>
             <th>
               <div id="_lastName" class="icond prevent-select">
                 Last Name
-                <i class="sortCarrot fa-solid fa-arrow-upt"></i>
+                <i class="sortCarrot fa-solid fa-sort"></i>
               </div>
             </th>
             <th>
               <div id="_email" class="icond prevent-select">
                 Email ID
-                <i class="sortCarrot fa-solid fa-arrow-up"></i>
+                <i class="sortCarrot fa-solid fa-sort"></i>
               </div>
             </th>
             <th>
               <div id="_contactNumber" class="icond prevent-select">
                 Contact No.
-                <i class="sortCarrot fa-solid fa-arrow-up"></i>
+                <i class="sortCarrot fa-solid fa-sort"></i>
               </div>
             </th>
             <th>
               <div id="_position" class="icond prevent-select">
                 Position
-                <i class="sortCarrot fa-solid fa-arrow-up"></i>
+                <i class="sortCarrot fa-solid fa-sort"></i>
               </div>
             </th>
 
@@ -166,7 +167,8 @@
                     id="CreateModalContactNumber"
                     name="CreateModalContactNumber"
                     class="createModalitems"
-                  />
+                  /><br />
+                  <small id="cM-cn-i-evm">Enter a valid Phone number</small>
                 </td>
               </tr>
               <tr>
@@ -268,7 +270,7 @@
                     class="createModalitems"
                   />
                   <br />
-                  <small id="uM-em-i-evm">Enter a valid email</small>
+                  <small id="uM-em-i-evm">Enter a valid Phone number</small>
                 </td>
               </tr>
               <tr>
@@ -279,11 +281,13 @@
                 </td>
                 <td>
                   <input
-                    type="tel"
+                    type="number"
                     id="UpdateModalContactNumber"
                     name="UpdateModalContactNumber"
                     class="createModalitems"
                   />
+                  <br />
+                  <small id="uM-cn-i-evm">Enter a valid Phone number</small>
                 </td>
               </tr>
               <tr>
