@@ -4,8 +4,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     const mn_emTb = document.getElementById("mn-tb-con");
     const pgBX = document.getElementById("pagination-box");
     const eT = document.getElementById("table-container");
-    // eT.style.display = "none";
-    // pgBX.style.display = "none";
     mn_emTb.style.display = "none";
     nr_msg.style.display = "block";
 
@@ -43,8 +41,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     const numRecords = await checkDB();
     if (numRecords !== 0) {
       nr_msg.style.display = "none";
-      // eT.style.display = "block";
-      // pgBX.style.display = "block";
       mn_emTb.style.display = "block";
     }
 
@@ -156,11 +152,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       let data1 = await response.json();
       const numRecords = await checkDB();
       if (numRecords === 0) {
-        // employeeTable.style.display = "none";
         mn_emTb.style.display = "none";
         nr_msg.style.display = "block";
       } else {
-        // employeeTable.style.display = "table";
         nr_msg.style.display = "none";
         mn_emTb.style.display = "block";
       }
