@@ -7,6 +7,17 @@ body {
   margin: 20px auto;
 }
 
+#mn-tb-con {
+  border-collapse: collapse;
+  border-style: outset;
+  border-color: black;
+}
+/* Change */
+#table-container {
+  overflow-x: auto;
+  height: 450px;
+}
+
 h1 {
   text-align: center;
   color: #333;
@@ -16,8 +27,10 @@ h1 {
   display: table;
   width: 100%;
   border-collapse: collapse;
-  border-style: outset;
-  border-color: black;
+  /* border-style: outset; */
+  /* border-color: black;
+  border-top: hidden !important;
+  border-bottom: hidden !important; */
 }
 
 th,
@@ -32,6 +45,45 @@ td {
 
 th {
   background-color: #c68642;
+}
+
+#employeeTable thead {
+  position: sticky;
+  top: 0;
+  background-color: #c68642;
+}
+
+#pagination-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1px;
+  position: sticky;
+  bottom: 0;
+  background-color: #c68642;
+  padding: 10px;
+  border-collapse: collapse;
+  /* border-style: outset;
+  border-color: black;
+  border-top: hidden !important; */
+}
+
+#pagination-box .page-info {
+  font-size: 16px;
+}
+
+#pagination-box .page-size select {
+  padding: 5px;
+}
+
+#pagination-box .pagination-buttons button {
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #f1c27d;
+}
+
+#pagination-box .pagination-buttons button i {
+  margin: 0 5px;
 }
 
 /* tbody tr:hover {

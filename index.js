@@ -1,8 +1,12 @@
 document.addEventListener("DOMContentLoaded", async function () {
   try {
     const nr_msg = document.getElementById("nr-msg");
-    const employeeTable = document.getElementById("employeeTable");
-    employeeTable.style.display = "none";
+    const mn_emTb = document.getElementById("mn-tb-con");
+    const pgBX = document.getElementById("pagination-box");
+    const eT = document.getElementById("table-container");
+    // eT.style.display = "none";
+    // pgBX.style.display = "none";
+    mn_emTb.style.display = "none";
     nr_msg.style.display = "block";
 
     const employeeTableColumns = [
@@ -13,6 +17,10 @@ document.addEventListener("DOMContentLoaded", async function () {
       "contactNumber",
       "position",
     ];
+
+    // Pagination variables
+    let currentPage = 1;
+    let recordsPerPage = 10;
 
     // Function to fetch number of records from the server
     const checkDB = async () => {
@@ -34,18 +42,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Fetch number of records from the server
     const numRecords = await checkDB();
     if (numRecords !== 0) {
-      employeeTable.style.display = "table";
       nr_msg.style.display = "none";
+      // eT.style.display = "block";
+      // pgBX.style.display = "block";
+      mn_emTb.style.display = "block";
     }
-    // if (!response.ok) {
-    //   const response2 = await fetch("http://localhost:3000/createDB", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ content: "[]" }),
-    //   });
-    // }
 
     const response = await fetch("data.json");
     let data = await response.json();
@@ -55,6 +56,24 @@ document.addEventListener("DOMContentLoaded", async function () {
     const tableBody = document.getElementById("tableBody");
     let sortField = "";
     let sortAscending = true;
+
+    const updatePageInfo = async () => {
+      const totalPages = Math.ceil(data.length / recordsPerPage);
+      const numRecords = await checkDB();
+      const offset = currentPage * recordsPerPage - recordsPerPage + 1;
+      const limitk =
+        numRecords >= currentPage * recordsPerPage
+          ? currentPage * recordsPerPage
+          : numRecords;
+      if (currentPage > totalPages) goToPreviousPage();
+
+      document.getElementById(
+        "pagesStatus"
+      ).textContent = `Page ${currentPage} of ${totalPages}`;
+      document.getElementById(
+        "recordsStatus"
+      ).textContent = `${offset} to ${limitk} of ${numRecords} Records`;
+    };
 
     const updateIcons = () => {
       const allIcons = document.querySelectorAll(".icond");
@@ -86,8 +105,12 @@ document.addEventListener("DOMContentLoaded", async function () {
             : b[sortField].localeCompare(a[sortField])
         );
       }
+      const startIndex = (currentPage - 1) * recordsPerPage;
+      const endIndex = startIndex + recordsPerPage;
+      const paginatedData = data.slice(startIndex, endIndex);
+
       tableBody.innerHTML = "";
-      data.forEach((employee) => {
+      paginatedData.forEach((employee) => {
         const row = tableBody.insertRow();
         let index = 0;
         for (index; index < employeeTableColumns.length; index++) {
@@ -95,15 +118,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             employee[`${employeeTableColumns[index]}`];
         }
 
-        //Old method
-        // const row = tableBody.insertRow();
-        // row.insertCell(0).textContent = employee.employeeId;
-        // row.insertCell(1).textContent = employee.firstName;
-        // row.insertCell(2).textContent = employee.lastName;
-        // row.insertCell(3).textContent = employee.email;
-        // row.insertCell(4).textContent = employee.contactNumber;
-        // row.insertCell(5).textContent = employee.position;
-        // Action column with icons
         const actionCell = row.insertCell(index);
 
         const editIcon = document.createElement("i");
@@ -119,6 +133,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         actionCell.appendChild(deleteIcon);
       });
       updateIcons();
+      updatePageInfo();
     };
 
     populateTable();
@@ -141,11 +156,13 @@ document.addEventListener("DOMContentLoaded", async function () {
       let data1 = await response.json();
       const numRecords = await checkDB();
       if (numRecords === 0) {
-        employeeTable.style.display = "none";
+        // employeeTable.style.display = "none";
+        mn_emTb.style.display = "none";
         nr_msg.style.display = "block";
       } else {
-        employeeTable.style.display = "table";
+        // employeeTable.style.display = "table";
         nr_msg.style.display = "none";
+        mn_emTb.style.display = "block";
       }
 
       oldData = [...data1];
@@ -158,30 +175,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         .getElementById(`_${element}`)
         .addEventListener("click", () => setSortingField(`${element}`));
     });
-    //old method
-    // document
-    //   .getElementById("_employeeId")
-    //   .addEventListener("click", () => setSortingField("employeeId"));
-
-    // document
-    //   .getElementById("_firstName")
-    //   .addEventListener("click", () => setSortingField("firstName"));
-
-    // document
-    //   .getElementById("_lastName")
-    //   .addEventListener("click", () => setSortingField("lastName"));
-
-    // document
-    //   .getElementById("_email")
-    //   .addEventListener("click", () => setSortingField("email"));
-
-    // document
-    //   .getElementById("_contactNumber")
-    //   .addEventListener("click", () => setSortingField("contactNumber"));
-
-    // document
-    //   .getElementById("_position")
-    //   .addEventListener("click", () => setSortingField("position"));
 
     const infoNotify = (message) => {
       Toastify({
@@ -213,7 +206,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       }).showToast();
     };
 
-    //Function to validate entered data via modal input
     const validateData = (formData, modalType) => {
       const {
         employeeId,
@@ -253,13 +245,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
       em.style.display = "none";
 
-      // if (contactNumber.length !== null || contactNumber !== 10) {
-      //   console.log(contactNumber.length);
-      //   cn.style.display = "block";
-      //   return false;
-      // }
-      // cn.style.display = "none";
-
       return true;
     };
 
@@ -283,6 +268,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     submitModal.addEventListener("click", async (event) => {
+      event.preventDefault();
       try {
         const formData = {
           employeeId: document.getElementById("CreateModalEmployeeId").value,
@@ -377,7 +363,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       updateModal.style.display = "block";
     };
 
-    submitUpdateModal.addEventListener("click", async () => {
+    submitUpdateModal.addEventListener("click", async (event) => {
+      event.preventDefault();
       try {
         const formData = {
           employeeId: document.getElementById("UpdateModalEmployeeId").value,
@@ -388,6 +375,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             .value,
           position: document.getElementById("UpdateModalPosition").value,
         };
+        console.log("hello");
 
         if (!validateData(formData, "uM")) {
           return;
@@ -445,6 +433,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     };
 
     confirmDeleteBtn.addEventListener("click", async (event) => {
+      event.preventDefault();
       try {
         const employeeId = document
           .getElementById("deleteModalMessage")
@@ -479,6 +468,37 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     cancelDeleteBtn.addEventListener("click", () => {
       deleteModal.style.display = "none";
+    });
+
+    // Row Pagination functions
+    const goToPage = (page) => {
+      currentPage = page;
+      populateTable();
+    };
+
+    const goToPreviousPage = () => {
+      if (currentPage > 1) {
+        goToPage(currentPage - 1);
+      }
+    };
+
+    const goToNextPage = () => {
+      const totalPages = Math.ceil(data.length / recordsPerPage);
+      if (currentPage < totalPages) {
+        goToPage(currentPage + 1);
+      }
+    };
+
+    document
+      .getElementById("prevPage")
+      .addEventListener("click", goToPreviousPage);
+
+    document.getElementById("nextPage").addEventListener("click", goToNextPage);
+
+    document.getElementById("pageSize").addEventListener("change", (event) => {
+      recordsPerPage = parseInt(event.target.value);
+      currentPage = 1;
+      populateTable();
     });
   } catch (error) {
     console.error(error);

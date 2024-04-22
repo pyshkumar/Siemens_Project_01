@@ -27,57 +27,84 @@
       </div>
 
       <!-- The Table -->
+      <div id="mn-tb-con">
+        <div id="table-container">
+          <table id="employeeTable">
+            <thead>
+              <tr>
+                <th user-select: none;>
+                  <div id="_employeeId" class="icond prevent-select">
+                    Employee ID
+                    <i class="sortCarrot fa-solid fa-sort"></i>
+                  </div>
+                </th>
+                <th>
+                  <div id="_firstName" class="icond prevent-select">
+                    First Name
+                    <i class="sortCarrot fa-solid fa-sort"></i>
+                  </div>
+                </th>
+                <th>
+                  <div id="_lastName" class="icond prevent-select">
+                    Last Name
+                    <i class="sortCarrot fa-solid fa-sort"></i>
+                  </div>
+                </th>
+                <th>
+                  <div id="_email" class="icond prevent-select">
+                    Email ID
+                    <i class="sortCarrot fa-solid fa-sort"></i>
+                  </div>
+                </th>
+                <th>
+                  <div id="_contactNumber" class="icond prevent-select">
+                    Contact No.
+                    <i class="sortCarrot fa-solid fa-sort"></i>
+                  </div>
+                </th>
+                <th>
+                  <div id="_position" class="icond prevent-select">
+                    Position
+                    <i class="sortCarrot fa-solid fa-sort"></i>
+                  </div>
+                </th>
 
-      <table id="employeeTable">
-        <thead>
-          <tr>
-            <th user-select: none;>
-              <div id="_employeeId" class="icond prevent-select">
-                Employee ID
-                <i class="sortCarrot fa-solid fa-sort"></i>
-              </div>
-            </th>
-            <th>
-              <div id="_firstName" class="icond prevent-select">
-                First Name
-                <i class="sortCarrot fa-solid fa-sort"></i>
-              </div>
-            </th>
-            <th>
-              <div id="_lastName" class="icond prevent-select">
-                Last Name
-                <i class="sortCarrot fa-solid fa-sort"></i>
-              </div>
-            </th>
-            <th>
-              <div id="_email" class="icond prevent-select">
-                Email ID
-                <i class="sortCarrot fa-solid fa-sort"></i>
-              </div>
-            </th>
-            <th>
-              <div id="_contactNumber" class="icond prevent-select">
-                Contact No.
-                <i class="sortCarrot fa-solid fa-sort"></i>
-              </div>
-            </th>
-            <th>
-              <div id="_position" class="icond prevent-select">
-                Position
-                <i class="sortCarrot fa-solid fa-sort"></i>
-              </div>
-            </th>
-
-            <th>
-              <!-- <i
+                <th>
+                  <!-- <i
                 class="fa-solid fa-circle-arrow-down"
                 style="padding-left: 2px"
               ></i> -->
-            </th>
-          </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-      </table>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+        <div id="pagination-box">
+          <div class="page-size">
+            <label for="pageSize">Page size:</label>
+            <select id="pageSize">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>
+          </div>
+          <div class="page-info">
+            <span id="pagesStatus"></span>
+          </div>
+          <div class="page-info">
+            <span id="recordsStatus"></span>
+          </div>
+          <div class="pagination-buttons">
+            <button id="prevPage">
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <button id="nextPage">
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- The Create modal -->
@@ -103,7 +130,8 @@
                     id="CreateModalEmployeeId"
                     name="CreateModalEmployeeId"
                     required
-                  /><br />
+                  />
+                  <br />
                   <small id="cM-eid-i-evm">Enter the Employee ID</small>
                 </td>
               </tr>
@@ -270,7 +298,7 @@
                     class="createModalitems"
                   />
                   <br />
-                  <small id="uM-em-i-evm">Enter a valid Phone number</small>
+                  <small id="uM-em-i-evm">Enter a valid email</small>
                 </td>
               </tr>
               <tr>

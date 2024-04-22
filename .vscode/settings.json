@@ -1,0 +1,29 @@
+{
+  "workbench.colorTheme": "Default Dark Modern",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.linkedEditing": true,
+  "auto-rename-tag.activationOnLanguage": ["html", "javascript"],
+  "files.associations": {
+    "*.env.development": "env",
+    "*.env.production": "env",
+    "*.css": "tailwindcss"
+  },
+  "liveServer.settings.ignoreFiles": [
+    ".vscode/**",
+    "**/*.scss",
+    "**/*.sass",
+    "**/*.ts",
+    "**"
+  ],
+  "liveServer.settings.CustomBrowser": "chrome",
+  "liveServer.settings.port": 0,
+
+  "editor.fontFamily": "Menlo,Monaco, 'Courier New', monospace",
+  "editor.guides.bracketPairs": true,
+  "workbench.iconTheme": "vscode-icons",
+  "editor.minimap.enabled": false,
+  "liveServer.settings.wait": 2100,
+  "liveServer.settings.AdvanceCustomBrowserCmdLine": "",
+  "liveServer.settings.useLocalIp": true
+}
