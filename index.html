@@ -16,13 +16,13 @@
       type="text/javascript"
       src="https://cdn.jsdelivr.net/npm/toastify-js"
     ></script>
-    <script src="index.js"></script>
+    <script src="index.mjs" type="module"></script>
   </head>
   <body>
     <div class="container">
-      <h1>Employees Data Management System</h1>
+      <h1>Data Management System</h1>
       <div class="buttons-container">
-        <button id="createBtn">Add Employee</button>
+        <button id="createBtn">Add Data</button>
         <h1 id="nr-msg">No Records</h1>
       </div>
 
@@ -30,9 +30,9 @@
       <div id="mn-tb-con">
         <div id="table-container">
           <table id="employeeTable">
-            <thead>
-              <tr>
-                <th user-select: none;>
+            <thead id="tableHead">
+              <!-- <tr>
+                <th>
                   <div id="_employeeId" class="icond prevent-select">
                     Employee ID
                     <i class="sortCarrot fa-solid fa-sort"></i>
@@ -69,13 +69,8 @@
                   </div>
                 </th>
 
-                <th>
-                  <!-- <i
-                class="fa-solid fa-circle-arrow-down"
-                style="padding-left: 2px"
-              ></i> -->
-                </th>
-              </tr>
+                <th></th>
+              </tr> -->
             </thead>
             <tbody id="tableBody"></tbody>
           </table>
@@ -96,11 +91,17 @@
             <span id="recordsStatus"></span>
           </div>
           <div class="pagination-buttons">
+            <button id="jumpToFirstPage">
+              <i class="fa-solid fa-backward-fast"></i>
+            </button>
             <button id="prevPage">
-              <i class="fa-solid fa-arrow-left"></i>
+              <i class="fa-solid fa-caret-left"></i>
             </button>
             <button id="nextPage">
-              <i class="fa-solid fa-arrow-right"></i>
+              <i class="fa-solid fa-caret-right"></i>
+            </button>
+            <button id="jumpToLastPage">
+              <i class="fa-solid fa-forward-fast"></i>
             </button>
           </div>
         </div>
