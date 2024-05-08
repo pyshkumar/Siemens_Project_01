@@ -1,0 +1,798 @@
+import * as utils from "./utility.mjs";
+import * as services from "./Services.mjs";
+
+const gridBaseTemplate = document.createElement("div");
+gridBaseTemplate.innerHTML = `
+<link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+<div class="mainHeadingContainer">
+<h1 id="mainHeading"></h1>
+<div class="mH-buttons-container">
+  <button id="createBtn">Add Data</button>
+</div>
+<div><h1 id="nr-msg">No Records</h1></div>
+<div id="mn-tb-con">
+<div id="table-container">
+  <table id="employeeTable">
+    <thead id="tableHead"></thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+</div>
+<div id="pagination-box">
+<div class="page-size">
+  <label for="pageSize">Page size:</label>
+  <select id="pageSize">
+    <option value="10">10</option>
+    <option value="20">20</option>
+    <option value="50">50</option>
+  </select>
+</div>
+<div class="page-info">
+  <span id="pagesStatus"></span>
+</div>
+<div class="page-info">
+  <span id="recordsStatus"></span>
+</div>
+<div class="pagination-buttons">
+  <button id="jumpToFirstPage">
+    <i class="fa-solid fa-backward-fast"></i>
+  </button>
+  <button id="prevPage">
+    <i class="fa-solid fa-caret-left"></i>
+  </button>
+  <button id="nextPage">
+    <i class="fa-solid fa-caret-right"></i>
+  </button>
+  <button id="jumpToLastPage">
+    <i class="fa-solid fa-forward-fast"></i>
+  </button>
+</div>
+</div>
+</div>
+</div>
+<div id="myModal" class="modal">
+<div class="modal-content">
+  <h2 class="createModalHeading">Enter Data</h2>
+
+  <form id="modalForm">
+    <div class="createModalFields">
+      <table class="createModalTable" id="createModalTable">
+      </table>
+    </div>
+
+    <div class="createModalButtons">
+      <button type="submit" id="submitModal">Submit</button>
+      <button type="button" id="cancelModal">Cancel</button>
+    </div>
+  </form>
+</div>
+</div>
+
+<div id="updateModal" class="modal">
+<div class="modal-content">
+  <h2 class="updateModalHeading">Update Record</h2>
+
+  <form id="updateModalForm">
+    <div class="createModalFields">
+      <table class="updateModalTable">
+        <tr>
+          <td>
+            <label for="UpdateModalEmployeeId" class="createModalitems"
+              >Employee ID <span class="man-star">*</span></label
+            >
+          </td>
+          <td class="updateModalInput">
+            <input
+              class="createModalitems"
+              type="number"
+              id="UpdateModalEmployeeId"
+              name="UpdateModalEmployeeId"
+              required
+              disabled
+            /><br />
+            <small id="uM-eid-i-evm">Enter the Employee ID</small>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="UpdateModalFirstName" class="createModalitems"
+              >First Name <span class="man-star">*</span></label
+            >
+          </td>
+          <td>
+            <input
+              class="createModalitems"
+              placeholder=""
+              type="text"
+              id="UpdateModalFirstName"
+              name="UpdateModalFirstName"
+              required
+            /><br />
+            <small id="uM-fn-i-evm">Enter the First Name</small>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="UpdateModalLastName" class="createModalitems"
+              >Last Name
+            </label>
+          </td>
+          <td>
+            <input
+              type="text"
+              id="UpdateModalLastName"
+              name="UpdateModalLastName"
+              class="createModalitems"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="UpdateModalEmail" class="createModalitems"
+              >Email
+            </label>
+          </td>
+          <td>
+            <input
+              type="email"
+              id="UpdateModalEmail"
+              name="UpdateModalEmail"
+              class="createModalitems"
+            />
+            <br />
+            <small id="uM-em-i-evm">Enter a valid email</small>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="UpdateModalContactNumber" class="createModalitems"
+              >Contact Number
+            </label>
+          </td>
+          <td>
+            <input
+              type="number"
+              id="UpdateModalContactNumber"
+              name="UpdateModalContactNumber"
+              class="createModalitems"
+            />
+            <br />
+            <small id="uM-cn-i-evm">Enter a valid Phone number</small>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="UpdateModalPosition" class="createModalitems"
+              >Position
+            </label>
+          </td>
+          <td>
+            <input
+              type="text"
+              id="UpdateModalPosition"
+              name="UpdateModalPosition"
+              class="createModalitems"
+            />
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="updateModalButtons">
+      <button type="submit" id="submitUpdateModal">Save</button>
+      <button type="button" id="cancelUpdateModal">Cancel</button>
+    </div>
+  </form>
+</div>
+</div>
+<div id="deleteModal" class="modal">
+<div class="modal-content">
+  <h2 class="deleteModalHeading">Delete Record</h2>
+  <p id="deleteModalMessage"></p>
+  <div class="deleteModalButtons">
+    <button type="button" id="confirmDeleteModal">Confirm</button>
+    <button type="button" id="cancelDeleteModal">Cancel</button>
+  </div>
+</div>
+</div>
+`;
+
+class GridBase extends HTMLElement {
+  constructor() {
+    super();
+
+    const shadow = this.attachShadow({ mode: "open" });
+    shadow.appendChild(gridBaseTemplate.cloneNode(true));
+
+    const FAstyles = document.createElement("link");
+    FAstyles.setAttribute("rel", "stylesheet");
+    FAstyles.setAttribute("href", "font-6/css/all.css");
+    shadow.appendChild(FAstyles.cloneNode(true));
+
+    // Retrieve attributes
+    const mainHeading = this.getAttribute("main-heading");
+    const columnHeadings = JSON.parse(this.getAttribute("columns"));
+    const sortFeature = this.getAttribute("sortFeature");
+    const paginationFeature = this.getAttribute("paginationFeature");
+
+    this.noRecordsMessageContainer = this.shadowRoot.getElementById("nr-msg");
+    this.mainGridContainer = this.shadowRoot.getElementById("mn-tb-con");
+    this.paginationBox = this.shadowRoot.getElementById("pagination-box");
+    this.mainGridContainer.style.display = "none";
+    this.noRecordsMessageContainer.style.display = "block";
+    console.log(this.paginationBox);
+
+    this.employeeTableColumns = [];
+    this.data = [];
+    this.oldData = [];
+    this.currentPage = 1;
+    this.recordsPerPage = 20;
+    this.sortField = "";
+    this.sortAscending = true;
+    this.sortingON = sortFeature.toLowerCase();
+    this.paginationON = paginationFeature.toLowerCase();
+
+    this.setPaginationBox();
+    this.setMainHeading(mainHeading);
+    this.setColumnsHeading(columnHeadings);
+    this.fetchDataAndPopulateTable();
+    this.dataFetch();
+
+    // Bind event listeners pagation
+    this.shadowRoot
+      .getElementById("jumpToFirstPage")
+      .addEventListener("click", () => this.goToFirstPage());
+    this.shadowRoot
+      .getElementById("prevPage")
+      .addEventListener("click", () => this.goToPreviousPage());
+    this.shadowRoot
+      .getElementById("nextPage")
+      .addEventListener("click", () => this.goToNextPage());
+    this.shadowRoot
+      .getElementById("jumpToLastPage")
+      .addEventListener("click", () => this.goToLastPage());
+    this.shadowRoot
+      .getElementById("pageSize")
+      .addEventListener("change", (event) => this.changePageSize(event));
+
+    //Create Modal
+    this.Createmodal = this.shadowRoot.getElementById("myModal");
+    this.createBtn = this.shadowRoot.getElementById("createBtn");
+    this.submitModal = this.shadowRoot.getElementById("submitModal");
+    this.cancelModal = this.shadowRoot.getElementById("cancelModal");
+
+    this.createBtn.addEventListener("click", () => this.openCreateModal());
+    this.submitModal.addEventListener("click", (event) =>
+      this.submitCreateModal(event)
+    );
+    this.cancelModal.addEventListener("click", () => this.closeCreateModel());
+
+    //Update Modal
+    this.updateModal = this.shadowRoot.getElementById("updateModal");
+    this.submitUpdateModal =
+      this.shadowRoot.getElementById("submitUpdateModal");
+    this.cancelUpdateModal =
+      this.shadowRoot.getElementById("cancelUpdateModal");
+
+    this.cancelUpdateModal.addEventListener("click", () =>
+      this.closeUpdateModel()
+    );
+    this.submitUpdateModal.addEventListener("click", (event) =>
+      this.submitUpdateModalFunc(event)
+    );
+
+    //deleteModal
+    this.deleteModal = this.shadowRoot.getElementById("deleteModal");
+    this.confirmDeleteBtn =
+      this.shadowRoot.getElementById("confirmDeleteModal");
+    this.cancelDeleteBtn = this.shadowRoot.getElementById("cancelDeleteModal");
+
+    this.cancelDeleteBtn.addEventListener("click", () =>
+      this.closeDeleteModel()
+    );
+    this.confirmDeleteBtn.addEventListener("click", async (event) =>
+      this.submitDeleteModalFunc(event)
+    );
+  }
+
+  connectedCallback() {
+    console.log("GridBase connected to the DOM!");
+  }
+
+  setPaginationBox() {
+    if (this.paginationON === "true") {
+      this.paginationBox.style.display = "flex";
+    }
+  }
+
+  setMainHeading(mainHeading) {
+    const mH = this.shadowRoot.getElementById("mainHeading");
+    mH.innerHTML = mainHeading.slice(0, 50);
+  }
+
+  setColumnsHeading(columnHeadings) {
+    console.log(columnHeadings, typeof columnHeadings);
+    this.employeeTableColumns = [...columnHeadings];
+  }
+  async fetchDataAndPopulateTable() {
+    try {
+      const response1 = await utils.getJson("checkDB");
+      const response = await utils.getJson("fetchDB");
+      const data = await response.json();
+      this.data = data;
+      this.oldData = [...data];
+      this.populateTableHeader();
+      this.populateTable();
+      this.updatePageInfo();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  populateTableHeader() {
+    const tableHead = this.shadowRoot.getElementById("tableHead");
+    tableHead.innerHTML = "";
+    const row = tableHead.insertRow();
+    this.employeeTableColumns.forEach((element) => {
+      var x = document.createElement("TH");
+      var Div = document.createElement("div");
+      const Icon = document.createElement("i");
+      Icon.classList.add("fa-solid", "fa-sort", "sortCarrot");
+      Div.classList.add("icond", "prevent-select");
+      Div.id = `_${element}`;
+      Div.innerText = ` ${element.charAt(0).toUpperCase()}${element.slice(1)} `;
+
+      if (this.sortingON == "true") {
+        Div.appendChild(Icon);
+      }
+
+      x.appendChild(Div);
+      row.appendChild(x);
+    });
+
+    var x = document.createElement("TH");
+    x.id = "action_column";
+    row.appendChild(x);
+    tableHead.appendChild(row);
+
+    if (this.sortingON == "true") {
+      this.employeeTableColumns.forEach((element) => {
+        this.shadowRoot
+          .getElementById(`_${element}`)
+          .addEventListener("click", () => this.setSortingField(`${element}`));
+      });
+    }
+  }
+
+  populateTable() {
+    const tableBody = this.shadowRoot.getElementById("tableBody");
+
+    if (this.sortField.length !== 0) {
+      this.data.sort((a, b) =>
+        this.sortAscending
+          ? a[this.sortField].localeCompare(b[this.sortField])
+          : b[this.sortField].localeCompare(a[this.sortField])
+      );
+    }
+    var startIndex = 0;
+    var endIndex = this.data.length;
+
+    if (this.paginationON === "true") {
+      var startIndex = (this.currentPage - 1) * this.recordsPerPage;
+      var endIndex = startIndex + this.recordsPerPage;
+    }
+
+    const paginatedData = this.data.slice(startIndex, endIndex);
+
+    tableBody.innerHTML = "";
+
+    paginatedData.forEach((employee) => {
+      const row = document.createElement("tr");
+
+      this.employeeTableColumns.forEach((column) => {
+        const cell = document.createElement("td");
+        cell.textContent = employee[column];
+        row.appendChild(cell);
+      });
+
+      const actionCell = document.createElement("td");
+
+      const editIcon = document.createElement("i");
+      editIcon.classList.add("fa-solid", "fa-pen", "editIcon");
+      editIcon.addEventListener("click", () => this.openUpdateModal(employee));
+      actionCell.appendChild(editIcon);
+
+      const deleteIcon = document.createElement("i");
+      deleteIcon.classList.add("fa-solid", "fa-trash-can", "deleteIcon");
+      deleteIcon.addEventListener("click", () =>
+        this.openDeleteModal(employee.employeeId)
+      );
+      actionCell.appendChild(deleteIcon);
+
+      row.appendChild(actionCell);
+      tableBody.appendChild(row);
+    });
+
+    if (this.sortingON == "true") {
+      this.updateIcons();
+    }
+    this.updatePageInfo();
+  }
+
+  setSortingField(field) {
+    if (this.sortField != field) {
+      this.sortField = field;
+      this.sortAscending = true;
+    } else if (this.sortField === field && this.sortAscending === true) {
+      this.sortAscending = false;
+    } else if (this.sortField === field && this.sortAscending === false) {
+      this.sortField = "";
+      this.data = [...this.oldData];
+    }
+
+    this.fetchDataAndPopulateTable();
+  }
+
+  changePageSize(event) {
+    this.recordsPerPage = parseInt(event.target.value);
+    this.currentPage = 1;
+    this.fetchDataAndPopulateTable();
+  }
+
+  updateIcons() {
+    const allIcons = this.shadowRoot.querySelectorAll(".icond");
+
+    allIcons.forEach((icon) => {
+      icon.querySelector("i").classList.remove("fa-arrow-up", "fa-arrow-down");
+      icon.querySelector("i").classList.add("fa-sort");
+    });
+    if (this.sortField.length !== 0) {
+      const icon = this.shadowRoot.getElementById(`_${this.sortField}`);
+      if (!this.sortAscending) {
+        icon.querySelector("i").classList.remove("fa-arrow-up", "fa-sort");
+        icon.querySelector("i").classList.add("fa-arrow-down");
+      }
+      if (this.sortAscending) {
+        icon.querySelector("i").classList.remove("fa-arrow-down", "fa-sort");
+        icon.querySelector("i").classList.add("fa-arrow-up");
+      }
+    }
+  }
+
+  goToFirstPage() {
+    if (this.currentPage === 1) return;
+    this.goToPage(1);
+  }
+
+  goToNextPage() {
+    const totalPages = Math.ceil(this.data.length / this.recordsPerPage);
+    if (this.currentPage < totalPages) {
+      this.goToPage(this.currentPage + 1);
+    }
+  }
+
+  goToPreviousPage() {
+    if (this.currentPage > 1) {
+      this.goToPage(this.currentPage - 1);
+    }
+  }
+
+  goToLastPage() {
+    const totalPages = Math.ceil(this.data.length / this.recordsPerPage);
+    if (this.currentPage === totalPages) return;
+    this.goToPage(totalPages);
+  }
+
+  goToPage(page) {
+    this.currentPage = page;
+    this.fetchDataAndPopulateTable();
+  }
+  async updatePageInfo() {
+    const totalPages = Math.ceil(this.data.length / this.recordsPerPage);
+    const response = await utils.getJson("checkDB");
+    const numRecordsData = await response.json();
+    const numRecords = numRecordsData.numRecords;
+    const offset =
+      this.currentPage * this.recordsPerPage - this.recordsPerPage + 1;
+    const limitk =
+      numRecords >= this.currentPage * this.recordsPerPage
+        ? this.currentPage * this.recordsPerPage
+        : numRecords;
+    if (this.currentPage > totalPages) this.goToPreviousPage();
+
+    this.shadowRoot.getElementById(
+      "pagesStatus"
+    ).textContent = `Page ${this.currentPage} of ${totalPages}`;
+    this.shadowRoot.getElementById(
+      "recordsStatus"
+    ).textContent = `${offset} to ${limitk} of ${numRecords} Records`;
+  }
+
+  async dataFetch() {
+    const response = await utils.getJson("fetchDB");
+    let data1 = await response.json();
+    const response2 = await utils.getJson("checkDB");
+    const numRecordsData = await response2.json();
+    const numRecords = numRecordsData.numRecords;
+    console.log(numRecords);
+    if (numRecords === 0) {
+      this.mainGridContainer.style.display = "none";
+      this.noRecordsMessageContainer.style.display = "block";
+    } else {
+      this.noRecordsMessageContainer.style.display = "none";
+      this.mainGridContainer.style.display = "block";
+    }
+    this.oldData = [...data1];
+    this.data = [...data1];
+  }
+
+  validateData(formData, modalType) {
+    const { employeeId, firstName, lastName, email, contactNumber, position } =
+      formData;
+
+    let regex = new RegExp(
+      "^([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,6})?$"
+    );
+    let result = regex.test(email);
+
+    const eid = this.shadowRoot.getElementById(`${modalType}-eid-i-evm`);
+    const em = this.shadowRoot.getElementById(`${modalType}-em-i-evm`);
+    const fn = this.shadowRoot.getElementById(`${modalType}-fn-i-evm`);
+    const cn = this.shadowRoot.getElementById(`${modalType}-cn-i-evm`);
+
+    if (!employeeId) {
+      eid.innerText = "Enter the Employee ID";
+      eid.style.display = "block";
+      return false;
+    }
+    eid.style.display = "none";
+
+    if (!firstName) {
+      fn.style.display = "block";
+      return false;
+    }
+    fn.style.display = "none";
+
+    if (!result) {
+      em.style.display = "block";
+      return false;
+    }
+    em.style.display = "none";
+
+    return true;
+  }
+  //Create Moadl Functions
+
+  clearCreateModalInput() {
+    const createForm = this.shadowRoot.getElementById("modalForm");
+    const createFormInput = createForm.querySelectorAll("input");
+    createFormInput.forEach((input) => {
+      input.value = "";
+    });
+    this.Createmodal.style.display = "none";
+  }
+
+  openCreateModal() {
+    const table = this.shadowRoot.getElementById("createModalTable");
+    table.innerHTML = "";
+    this.employeeTableColumns.forEach((column) => {
+      const row = document.createElement("tr");
+
+      const labelCell = document.createElement("td");
+      const label = document.createElement("label");
+      label.textContent = `${column.charAt(0).toUpperCase()}${column.slice(
+        1
+      )} `;
+      label.classList.add("createModalitems");
+      label.htmlFor = `CreateModal${column}`;
+      labelCell.appendChild(label);
+      row.appendChild(labelCell);
+
+      const inputCell = document.createElement("td");
+      const input = document.createElement("input");
+      input.type = "text";
+      input.id = `CreateModal${column}`;
+      input.name = `CreateModal${column}`;
+      input.required = true;
+      input.classList.add("createModalitems");
+      inputCell.appendChild(input);
+      row.appendChild(inputCell);
+
+      table.appendChild(row);
+    });
+    this.Createmodal.style.display = "block";
+  }
+
+  async submitCreateModal(event) {
+    event.preventDefault();
+
+    try {
+      const formData = {};
+
+      this.employeeTableColumns.forEach((column) => {
+        const value = this.shadowRoot.getElementById(
+          `CreateModal${column}`
+        ).value;
+        formData[column] = value;
+      });
+      console.log("hello");
+      console.log(formData);
+      // const formData = {
+      //   employeeId: this.shadowRoot.getElementById("CreateModalEmployeeId")
+      //     .value,
+      //   firstName: this.shadowRoot.getElementById("CreateModalFirstName").value,
+      //   lastName: this.shadowRoot.getElementById("CreateModalLastName").value,
+      //   email: this.shadowRoot.getElementById("CreateModalEmail").value,
+      //   contactNumber: this.shadowRoot.getElementById(
+      //     "CreateModalContactNumber"
+      //   ).value,
+      //   position: this.shadowRoot.getElementById("CreateModalPosition").value,
+      // };
+
+      // if (!this.validateData(formData, "cM")) {
+      //   return;
+      // }
+      // const response2 = await services.validateID(formData);
+      // const data = await response2.json();
+
+      // const eid = this.shadowRoot.getElementById(`cM-eid-i-evm`);
+      // if (data.exists) {
+      //   eid.innerText = "The Employee ID already exists";
+      //   eid.style.display = "block";
+      //   console.log(eid.innerText);
+      //   return;
+      // }
+      // eid.innerText = "Enter the Employee ID";
+      // eid.style.display = "none";
+
+      const response = await utils.postJson("addData", formData);
+      if (response.ok) {
+        console.log("Employee Record added successfully");
+        services.infoNotifying("Employee Record added successfully");
+        await this.dataFetch();
+        this.populateTable();
+        this.clearCreateModalInput();
+      } else {
+        console.error("Failed to add employee record");
+        services.errorNotifying("Failed to add employee recordcatch");
+        this.Createmodal.style.display = "none";
+      }
+    } catch (error) {
+      console.error("Failed to add employee record");
+      services.errorNotifying("Failed to add employee recordcatch");
+      this.clearCreateModalInput();
+    }
+  }
+  closeCreateModel() {
+    // const eid = this.shadowRoot.getElementById("cM-eid-i-evm");
+    // const em = this.shadowRoot.getElementById("cM-em-i-evm");
+    // const fn = this.shadowRoot.getElementById("cM-fn-i-evm");
+    // const cn = this.shadowRoot.getElementById("cM-cn-i-evm");
+
+    // em.style.display = "none";
+    // eid.style.display = "none";
+    // fn.style.display = "none";
+    // cn.style.display = "none";
+
+    this.clearCreateModalInput();
+  }
+
+  //Update Modal
+  openUpdateModal(employee) {
+    this.shadowRoot.getElementById("UpdateModalEmployeeId").value =
+      employee.employeeId;
+    this.shadowRoot.getElementById("UpdateModalFirstName").value =
+      employee.firstName;
+    this.shadowRoot.getElementById("UpdateModalLastName").value =
+      employee.lastName;
+    this.shadowRoot.getElementById("UpdateModalEmail").value = employee.email;
+    this.shadowRoot.getElementById("UpdateModalContactNumber").value =
+      employee.contactNumber;
+    this.shadowRoot.getElementById("UpdateModalPosition").value =
+      employee.position;
+
+    this.updateModal.style.display = "block";
+  }
+
+  async submitUpdateModalFunc(event) {
+    event.preventDefault();
+    try {
+      const formData = {
+        employeeId: this.shadowRoot.getElementById("UpdateModalEmployeeId")
+          .value,
+        firstName: this.shadowRoot.getElementById("UpdateModalFirstName").value,
+        lastName: this.shadowRoot.getElementById("UpdateModalLastName").value,
+        email: this.shadowRoot.getElementById("UpdateModalEmail").value,
+        contactNumber: this.shadowRoot.getElementById(
+          "UpdateModalContactNumber"
+        ).value,
+        position: this.shadowRoot.getElementById("UpdateModalPosition").value,
+      };
+
+      if (!this.validateData(formData, "uM")) {
+        return;
+      }
+
+      const response = await utils.updateJson("editData", formData);
+
+      if (response.ok) {
+        console.log("Employee record updated successfully");
+        services.infoNotifying("Employee record updated successfully");
+        this.updateModal.style.display = "none";
+        await this.dataFetch();
+        this.populateTable();
+      } else {
+        console.error("Error updating data:", error);
+        services.errorNotifying("Failed to update employee record");
+        this.updateModal.style.display = "none";
+      }
+    } catch (error) {
+      console.error("Failed to update employee record", error);
+      services.errorNotifying("Failed to update employee record");
+      this.updateModal.style.display = "none";
+    }
+  }
+
+  closeUpdateModel() {
+    const eid = this.shadowRoot.getElementById("uM-eid-i-evm");
+    const em = this.shadowRoot.getElementById("uM-em-i-evm");
+    const fn = this.shadowRoot.getElementById("uM-fn-i-evm");
+    const cn = this.shadowRoot.getElementById("uM-cn-i-evm");
+
+    em.style.display = "none";
+    eid.style.display = "none";
+    fn.style.display = "none";
+    cn.style.display = "none";
+
+    this.updateModal.style.display = "none";
+  }
+
+  //Delete Modal
+
+  openDeleteModal(employeeId) {
+    this.shadowRoot.getElementById(
+      "deleteModalMessage"
+    ).textContent = `Are you sure you want to proceed with the deletion of the employee record associated with Employee ID ${employeeId}`;
+    this.deleteModal.style.display = "block";
+  }
+
+  async submitDeleteModalFunc(event) {
+    event.preventDefault();
+    try {
+      const employeeId = this.shadowRoot
+        .getElementById("deleteModalMessage")
+        .textContent.split(" ")
+        .pop();
+
+      const response = await utils.deleteJson("deleteData", {
+        employeeId: employeeId,
+      });
+
+      if (response.ok) {
+        console.log("Employee record deleted successfully");
+        services.infoNotifying("Employee record deleted successfully");
+        this.deleteModal.style.display = "none";
+        await this.dataFetch();
+        this.populateTable();
+      } else {
+        console.error("Failed to delete employee record");
+        services.errorNotifying("Failed to delete employee record");
+        this.deleteModal.style.display = "none";
+      }
+    } catch (error) {
+      console.error("Failed to delete employee record");
+      services.errorNotifying("Failed to delete employee record");
+      this.deleteModal.style.display = "none";
+    }
+  }
+
+  closeDeleteModel() {
+    this.deleteModal.style.display = "none";
+  }
+}
+
+customElements.define("grid-base", GridBase);

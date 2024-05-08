@@ -2,7 +2,7 @@ body {
   background-color: #f1c27d;
 }
 
-.container {
+.mainHeadingContainer {
   max-width: 1250px;
   margin: 20px auto;
 }
@@ -54,7 +54,7 @@ th {
 }
 
 #pagination-box {
-  display: flex;
+  display: none;
   justify-content: space-between;
   align-items: center;
   margin-top: 1px;
@@ -101,7 +101,7 @@ th {
   cursor: pointer;
 }
 
-.buttons-container {
+.mH-buttons-container {
   text-align: center;
   margin-bottom: 20px;
 }
@@ -122,7 +122,7 @@ button:hover {
 }
 
 #_employeeId {
-  width: 138px;
+  width: 100px;
 }
 #_firstName {
   width: 95px;
@@ -134,7 +134,7 @@ button:hover {
   width: 109px;
 }
 #_contactNumber {
-  width: 119px;
+  width: 127px;
 }
 #_email {
   width: 115px;
