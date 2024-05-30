@@ -24,7 +24,7 @@ const postJson = (url, bodyData) => {
 };
 
 const updateJson = (url, bodyData) => {
-  return fetch(`${serverAddress}${url}`, {
+  return fetch(`${serverAddress}${url}/${bodyData["employeeId"]}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -34,7 +34,7 @@ const updateJson = (url, bodyData) => {
 };
 
 const deleteJson = (url, bodyData) => {
-  return fetch(`${serverAddress}${url}`, {
+  return fetch(`${serverAddress}${url}/${bodyData["employeeId"]}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

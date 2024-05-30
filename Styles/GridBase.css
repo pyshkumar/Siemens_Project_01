@@ -1,8 +1,4 @@
-body {
-  background-color: #f1c27d;
-}
-
-.mainHeadingContainer {
+#mainHeadingContainer {
   max-width: 1250px;
   margin: 20px auto;
 }
@@ -17,7 +13,10 @@ body {
   overflow-x: auto;
   height: 450px;
 }
-
+.permissibleScreen {
+  max-width: 1250px;
+  margin: 20px auto;
+}
 h1 {
   text-align: center;
   color: #333;
@@ -29,8 +28,8 @@ h1 {
   border-collapse: collapse;
   /* border-style: outset; */
   /* border-color: black;
-  border-top: hidden !important;
-  border-bottom: hidden !important; */
+    border-top: hidden !important;
+    border-bottom: hidden !important; */
 }
 
 th,
@@ -64,8 +63,8 @@ th {
   padding: 10px;
   border-collapse: collapse;
   /* border-style: outset;
-  border-color: black;
-  border-top: hidden !important; */
+    border-color: black;
+    border-top: hidden !important; */
 }
 
 #pagination-box .page-info {
@@ -87,8 +86,8 @@ th {
 }
 
 /* tbody tr:hover {
-  background-color: #ffdbac;
-} */
+    background-color: #ffdbac;
+  } */
 
 /* icon style */
 
@@ -101,7 +100,7 @@ th {
   cursor: pointer;
 }
 
-.mH-buttons-container {
+#mH-buttons-container {
   text-align: center;
   margin-bottom: 20px;
 }

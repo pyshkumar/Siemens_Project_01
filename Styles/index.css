@@ -1,0 +1,58 @@
+body {
+  background-color: #f1c27d;
+}
+
+#mainHeadingContainer {
+  max-width: 1250px;
+  margin: 20px auto;
+}
+
+#mn-tb-con {
+  border-collapse: collapse;
+  border-style: outset;
+  border-color: black;
+}
+
+.permissibleScreen {
+  max-width: 1250px;
+  margin: 20px auto;
+}
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+.icond {
+  color: #1b1b1b;
+  padding: 2px;
+}
+
+.icond:hover {
+  cursor: pointer;
+}
+
+#mH-buttons-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+button {
+  background-color: #c68642;
+  color: white;
+  padding: 10px 15px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.prevent-select {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.hide {
+  display: none;
+}

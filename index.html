@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <title>Employee Data</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" type="text/css" href="./Styles/index.css" />
     <link
       rel="stylesheet"
       type="text/css"
@@ -22,16 +22,18 @@
   <body>
     <grid-base
       main-heading="Data Management"
-      columns='["employeeId",
-      "firstName",
-      "lastName",
+      columns='[" Employee ID  ",
+      "first Name",
+      "last Name",
       "email",
-      "contactNumber",
+      "contact Number",
       "position"]'
       ,
       sortFeature="true"
       ,
       paginationFeature="true"
+      ,
+      user="admin"
     ></grid-base>
   </body>
 </html>

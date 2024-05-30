@@ -2,58 +2,63 @@ import * as utils from "./utility.mjs";
 import * as services from "./Services.mjs";
 
 const gridBaseTemplate = document.createElement("div");
+gridBaseTemplate.id = "gridBaseTemplate";
 gridBaseTemplate.innerHTML = `
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="./Styles/GridBase.css" />
     <link
       rel="stylesheet"
       type="text/css"
       href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
     />
-<div class="mainHeadingContainer">
-<h1 id="mainHeading"></h1>
-<div class="mH-buttons-container">
-  <button id="createBtn">Add Data</button>
-</div>
-<div><h1 id="nr-msg">No Records</h1></div>
-<div id="mn-tb-con">
-<div id="table-container">
-  <table id="employeeTable">
-    <thead id="tableHead"></thead>
-    <tbody id="tableBody"></tbody>
-  </table>
-</div>
-<div id="pagination-box">
-<div class="page-size">
-  <label for="pageSize">Page size:</label>
-  <select id="pageSize">
-    <option value="10">10</option>
-    <option value="20">20</option>
-    <option value="50">50</option>
-  </select>
-</div>
-<div class="page-info">
-  <span id="pagesStatus"></span>
-</div>
-<div class="page-info">
-  <span id="recordsStatus"></span>
-</div>
-<div class="pagination-buttons">
-  <button id="jumpToFirstPage">
-    <i class="fa-solid fa-backward-fast"></i>
-  </button>
-  <button id="prevPage">
-    <i class="fa-solid fa-caret-left"></i>
-  </button>
-  <button id="nextPage">
-    <i class="fa-solid fa-caret-right"></i>
-  </button>
-  <button id="jumpToLastPage">
-    <i class="fa-solid fa-forward-fast"></i>
-  </button>
-</div>
-</div>
-</div>
-</div>
+    <div id="mainHeadingContainer" class="permissibleScreen">
+    <h1 id="mainHeading"></h1>
+    <div id="mH-buttons-container">
+      <button id="createBtn">Add Record 
+
+      </button>
+    </div>
+  </div>
+  <div id="nr-msg-container" class="permissibleScreen">
+    <h1 id="nr-msg">No Records</h1>
+  </div>
+  <div id="mn-tb-con" class="permissibleScreen">
+    <div id="table-container">
+      <table id="employeeTable">
+        <thead id="tableHead"></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+    <div id="pagination-box">
+      <div class="page-size">
+        <label for="pageSize">Page size:</label>
+        <select id="pageSize">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+        </select>
+      </div>
+      <div class="page-info">
+        <span id="pagesStatus"></span>
+      </div>
+      <div class="page-info">
+        <span id="recordsStatus"></span>
+      </div>
+      <div class="pagination-buttons">
+        <button id="jumpToFirstPage">
+          <i class="fa-solid fa-backward-fast"></i>
+        </button>
+        <button id="prevPage">
+          <i class="fa-solid fa-caret-left"></i>
+        </button>
+        <button id="nextPage">
+          <i class="fa-solid fa-caret-right"></i>
+        </button>
+        <button id="jumpToLastPage">
+          <i class="fa-solid fa-forward-fast"></i>
+        </button>
+      </div>
+    </div>
+  </div>
 <div id="myModal" class="modal">
 <div class="modal-content">
   <h2 class="createModalHeading">Enter Data</h2>
@@ -179,7 +184,7 @@ gridBaseTemplate.innerHTML = `
       <table class="updateModalTable">
         <tr>
           <td>
-            <label for="UpdateModalEmployeeId" class="createModalitems"
+            <label for="UpdateModalEMPLOYEEID" class="createModalitems"
               >Employee ID <span class="man-star">*</span></label
             >
           </td>
@@ -187,8 +192,8 @@ gridBaseTemplate.innerHTML = `
             <input
               class="createModalitems"
               type="number"
-              id="UpdateModalEmployeeId"
-              name="UpdateModalEmployeeId"
+              id="UpdateModalEMPLOYEEID"
+              name="UpdateModalEMPLOYEEID"
               required
               disabled
             /><br />
@@ -197,7 +202,7 @@ gridBaseTemplate.innerHTML = `
         </tr>
         <tr>
           <td>
-            <label for="UpdateModalFirstName" class="createModalitems"
+            <label for="UpdateModalFIRSTNAME" class="createModalitems"
               >First Name <span class="man-star">*</span></label
             >
           </td>
@@ -206,8 +211,8 @@ gridBaseTemplate.innerHTML = `
               class="createModalitems"
               placeholder=""
               type="text"
-              id="UpdateModalFirstName"
-              name="UpdateModalFirstName"
+              id="UpdateModalFIRSTNAME"
+              name="UpdateModalFIRSTNAME"
               required
             /><br />
             <small id="uM-fn-i-evm">Enter the First Name</small>
@@ -215,30 +220,30 @@ gridBaseTemplate.innerHTML = `
         </tr>
         <tr>
           <td>
-            <label for="UpdateModalLastName" class="createModalitems"
+            <label for="UpdateModalLASTNAME" class="createModalitems"
               >Last Name
             </label>
           </td>
           <td>
             <input
               type="text"
-              id="UpdateModalLastName"
-              name="UpdateModalLastName"
+              id="UpdateModalLASTNAME"
+              name="UpdateModalLASTNAME"
               class="createModalitems"
             />
           </td>
         </tr>
         <tr>
           <td>
-            <label for="UpdateModalEmail" class="createModalitems"
+            <label for="UpdateModalEMAIL" class="createModalitems"
               >Email
             </label>
           </td>
           <td>
             <input
               type="email"
-              id="UpdateModalEmail"
-              name="UpdateModalEmail"
+              id="UpdateModalEMAIL"
+              name="UpdateModalEMAIL"
               class="createModalitems"
             />
             <br />
@@ -247,15 +252,15 @@ gridBaseTemplate.innerHTML = `
         </tr>
         <tr>
           <td>
-            <label for="UpdateModalContactNumber" class="createModalitems"
+            <label for="UpdateModalCONTACTNUMBER" class="createModalitems"
               >Contact Number
             </label>
           </td>
           <td>
             <input
               type="number"
-              id="UpdateModalContactNumber"
-              name="UpdateModalContactNumber"
+              id="UpdateModalCONTACTNUMBER"
+              name="UpdateModalCONTACTNUMBER"
               class="createModalitems"
             />
             <br />
@@ -264,15 +269,15 @@ gridBaseTemplate.innerHTML = `
         </tr>
         <tr>
           <td>
-            <label for="UpdateModalPosition" class="createModalitems"
+            <label for="UpdateModalPOSITION" class="createModalitems"
               >Position
             </label>
           </td>
           <td>
             <input
               type="text"
-              id="UpdateModalPosition"
-              name="UpdateModalPosition"
+              id="UpdateModalPOSITION"
+              name="UpdateModalPOSITION"
               class="createModalitems"
             />
           </td>
@@ -311,34 +316,40 @@ class GridBase extends HTMLElement {
     FAstyles.setAttribute("href", "font-6/css/all.css");
     shadow.appendChild(FAstyles.cloneNode(true));
 
-    // Retrieve attributes
-    const mainHeading = this.getAttribute("main-heading");
-    const columnHeadings = JSON.parse(this.getAttribute("columns"));
-    const sortFeature = this.getAttribute("sortFeature") || "false";
-    const paginationFeature = this.getAttribute("paginationFeature") || "false";
-
+    this.gridElement = this.shadowRoot.getElementById("gridBaseTemplate");
     this.noRecordsMessageContainer = this.shadowRoot.getElementById("nr-msg");
     this.mainGridContainer = this.shadowRoot.getElementById("mn-tb-con");
     this.paginationBox = this.shadowRoot.getElementById("pagination-box");
+
     this.mainGridContainer.style.display = "none";
     this.noRecordsMessageContainer.style.display = "block";
-    console.log(this.paginationBox);
+
+    // Retrieved attributes
+    const mainHeading = this.getAttribute("main-heading") || "Data Management";
+    const columnHeadings = JSON.parse(this.getAttribute("columns")) || [];
+    const sortFeature = this.getAttribute("sortFeature") || "false";
+    const paginationFeature = this.getAttribute("paginationFeature") || "false";
+    const userType = this.getAttribute("user") || "regular";
 
     this.employeeTableColumns = [];
+    this.employeeTableColumnsLabels = [];
     this.data = [];
     this.oldData = [];
     this.currentPage = 1;
-    this.recordsPerPage = 20;
+    this.recordsPerPage = 10;
     this.sortField = "";
     this.sortAscending = true;
     this.sortingON = sortFeature.toLowerCase();
     this.paginationON = paginationFeature.toLowerCase();
+    this.userClass = userType.toLowerCase();
 
-    this.setPaginationBox();
     this.setMainHeading(mainHeading);
+    this.setUserView();
+    this.setPaginationBox();
     this.setColumnsHeading(columnHeadings);
     this.fetchDataAndPopulateTable();
     this.dataFetch();
+    this.testing();
 
     // Bind event listeners pagation
     this.shadowRoot
@@ -401,9 +412,28 @@ class GridBase extends HTMLElement {
     console.log("GridBase connected to the DOM!");
   }
 
+  async testing() {
+    const sortInfo = {
+      name: "LASTNAME",
+      order: "DESC",
+    };
+    const response = await utils.postJson("employee/search", sortInfo);
+    const data = await response.json();
+    console.log(data);
+  }
+
+  setUserView() {
+    const addButtonContainer = this.shadowRoot.getElementById(
+      "mH-buttons-container"
+    );
+    if (this.userClass !== "admin") addButtonContainer.style.display = "none";
+  }
+
   setPaginationBox() {
     if (this.paginationON === "true") {
       this.paginationBox.style.display = "flex";
+    } else {
+      this.paginationBox.style.display = "none";
     }
   }
 
@@ -413,19 +443,61 @@ class GridBase extends HTMLElement {
   }
 
   setColumnsHeading(columnHeadings) {
-    console.log(columnHeadings, typeof columnHeadings);
-    this.employeeTableColumns = [...columnHeadings];
+    if (columnHeadings.length === 0) {
+      services.errorNotifying("Grid columns headings not defined");
+      throw new Error("Grid columns headings not defined");
+    }
+    let newColumn = [];
+
+    columnHeadings.forEach((element) => {
+      newColumn.push(element.split(" ").join("").toUpperCase());
+    });
+
+    this.employeeTableColumns = [...newColumn];
+    this.employeeTableColumnsLabels = [...columnHeadings];
   }
+
+  async dataFetch() {
+    try {
+      const orderBy = this.sortAscending === true ? "ASC" : "DESC";
+      const sortInfo = {
+        name: this.sortField,
+        order: orderBy,
+      };
+      const response = await utils.postJson("employee/search", sortInfo);
+      let data = await response.json();
+      // const response2 = await utils.getJson("checkDB");
+      // const numRecordsData = await response2.json();
+      const numRecords = data.length;
+      if (numRecords === 0) {
+        this.mainGridContainer.style.display = "none";
+        this.noRecordsMessageContainer.style.display = "block";
+      } else {
+        this.noRecordsMessageContainer.style.display = "none";
+        this.mainGridContainer.style.display = "block";
+      }
+      this.oldData = [...data];
+      this.data = [...data];
+    } catch (error) {
+      services.errorNotifying("404 Server Not Found");
+      throw error;
+    }
+  }
+
   async fetchDataAndPopulateTable() {
     try {
-      const response1 = await utils.getJson("checkDB");
-      const response = await utils.getJson("fetchDB");
+      const orderBy = this.sortAscending === true ? "ASC" : "DESC";
+      const sortInfo = {
+        name: this.sortField,
+        order: orderBy,
+      };
+      const response = await utils.postJson("employee/search", sortInfo);
       const data = await response.json();
       this.data = data;
       this.oldData = [...data];
       this.populateTableHeader();
       this.populateTable();
-      this.updatePageInfo();
+      //this.updatePageInfo();
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -435,27 +507,30 @@ class GridBase extends HTMLElement {
     const tableHead = this.shadowRoot.getElementById("tableHead");
     tableHead.innerHTML = "";
     const row = tableHead.insertRow();
-    this.employeeTableColumns.forEach((element) => {
-      var x = document.createElement("TH");
+
+    this.employeeTableColumnsLabels.forEach((element) => {
+      var th = document.createElement("TH");
       var Div = document.createElement("div");
-      const Icon = document.createElement("i");
-      Icon.classList.add("fa-solid", "fa-sort", "sortCarrot");
+
       Div.classList.add("icond", "prevent-select");
-      Div.id = `_${element}`;
+      Div.id = `_${element.split(" ").join("").toUpperCase()}`;
       Div.innerText = ` ${element.charAt(0).toUpperCase()}${element.slice(1)} `;
 
       if (this.sortingON == "true") {
+        const Icon = document.createElement("i");
+        Icon.classList.add("fa-solid", "fa-sort", "sortCarrot");
         Div.appendChild(Icon);
       }
-
-      x.appendChild(Div);
-      row.appendChild(x);
+      th.appendChild(Div);
+      row.appendChild(th);
     });
 
-    var x = document.createElement("TH");
-    x.id = "action_column";
-    row.appendChild(x);
-    tableHead.appendChild(row);
+    if (this.userClass === "admin") {
+      var th = document.createElement("TH");
+      th.id = "action_column";
+      row.appendChild(th);
+      tableHead.appendChild(row);
+    }
 
     if (this.sortingON == "true") {
       this.employeeTableColumns.forEach((element) => {
@@ -468,26 +543,24 @@ class GridBase extends HTMLElement {
 
   populateTable() {
     const tableBody = this.shadowRoot.getElementById("tableBody");
-
-    if (this.sortField.length !== 0) {
-      this.data.sort((a, b) =>
-        this.sortAscending
-          ? a[this.sortField].localeCompare(b[this.sortField])
-          : b[this.sortField].localeCompare(a[this.sortField])
-      );
-    }
+    // if (this.sortField.length !== 0) {
+    //   this.data.sort((a, b) =>
+    //     this.sortAscending
+    //       ? a[this.sortField].localeCompare(b[this.sortField])
+    //       : b[this.sortField].localeCompare(a[this.sortField])
+    //   );
+    // }
     var startIndex = 0;
     var endIndex = this.data.length;
 
     if (this.paginationON === "true") {
-      var startIndex = (this.currentPage - 1) * this.recordsPerPage;
-      var endIndex = startIndex + this.recordsPerPage;
+      startIndex = (this.currentPage - 1) * this.recordsPerPage;
+      endIndex = startIndex + this.recordsPerPage;
     }
 
     const paginatedData = this.data.slice(startIndex, endIndex);
 
     tableBody.innerHTML = "";
-
     paginatedData.forEach((employee) => {
       const row = document.createElement("tr");
 
@@ -507,11 +580,14 @@ class GridBase extends HTMLElement {
       const deleteIcon = document.createElement("i");
       deleteIcon.classList.add("fa-solid", "fa-trash-can", "deleteIcon");
       deleteIcon.addEventListener("click", () =>
-        this.openDeleteModal(employee.employeeId)
+        this.openDeleteModal(employee.EMPLOYEEID)
       );
       actionCell.appendChild(deleteIcon);
 
-      row.appendChild(actionCell);
+      if (this.userClass === "admin") {
+        row.appendChild(actionCell);
+      }
+
       tableBody.appendChild(row);
     });
 
@@ -521,111 +597,64 @@ class GridBase extends HTMLElement {
     this.updatePageInfo();
   }
 
+  async sortRecords() {
+    try {
+      // const response = await utils.postJson("sortRecords", {
+      //   columnName: sortCol,
+      //   sortOrder: sortOrder,
+      // });
+      // const newData = await response.json();
+
+      const orderBy = this.sortAscending === true ? "ASC" : "DESC";
+      const sortInfo = {
+        name: this.sortField,
+        order: orderBy,
+      };
+      const response = await utils.postJson("employee/search", sortInfo);
+      const data = await response.json();
+      this.data = [...data];
+      this.populateTable();
+      console.log("sortRecords", data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   setSortingField(field) {
     if (this.sortField != field) {
       this.sortField = field;
       this.sortAscending = true;
+      this.sortRecords();
     } else if (this.sortField === field && this.sortAscending === true) {
       this.sortAscending = false;
+      this.sortRecords();
     } else if (this.sortField === field && this.sortAscending === false) {
       this.sortField = "";
-      this.data = [...this.oldData];
+      // this.data = [...this.oldData];
+      this.sortRecords();
+      this.populateTable();
     }
-
-    this.fetchDataAndPopulateTable();
-  }
-
-  changePageSize(event) {
-    this.recordsPerPage = parseInt(event.target.value);
-    this.currentPage = 1;
-    this.fetchDataAndPopulateTable();
+    // this.fetchDataAndPopulateTable();
   }
 
   updateIcons() {
-    const allIcons = this.shadowRoot.querySelectorAll(".icond");
+    const allDiv = this.shadowRoot.querySelectorAll(".icond");
 
-    allIcons.forEach((icon) => {
+    allDiv.forEach((icon) => {
       icon.querySelector("i").classList.remove("fa-arrow-up", "fa-arrow-down");
       icon.querySelector("i").classList.add("fa-sort");
     });
     if (this.sortField.length !== 0) {
-      const icon = this.shadowRoot.getElementById(`_${this.sortField}`);
+      const div = this.shadowRoot.getElementById(`_${this.sortField}`);
       if (!this.sortAscending) {
-        icon.querySelector("i").classList.remove("fa-arrow-up", "fa-sort");
-        icon.querySelector("i").classList.add("fa-arrow-down");
+        div.querySelector("i").classList.remove("fa-arrow-up", "fa-sort");
+        div.querySelector("i").classList.add("fa-arrow-down");
       }
       if (this.sortAscending) {
-        icon.querySelector("i").classList.remove("fa-arrow-down", "fa-sort");
-        icon.querySelector("i").classList.add("fa-arrow-up");
+        div.querySelector("i").classList.remove("fa-arrow-down", "fa-sort");
+        div.querySelector("i").classList.add("fa-arrow-up");
       }
     }
-  }
-
-  goToFirstPage() {
-    if (this.currentPage === 1) return;
-    this.goToPage(1);
-  }
-
-  goToNextPage() {
-    const totalPages = Math.ceil(this.data.length / this.recordsPerPage);
-    if (this.currentPage < totalPages) {
-      this.goToPage(this.currentPage + 1);
-    }
-  }
-
-  goToPreviousPage() {
-    if (this.currentPage > 1) {
-      this.goToPage(this.currentPage - 1);
-    }
-  }
-
-  goToLastPage() {
-    const totalPages = Math.ceil(this.data.length / this.recordsPerPage);
-    if (this.currentPage === totalPages) return;
-    this.goToPage(totalPages);
-  }
-
-  goToPage(page) {
-    this.currentPage = page;
-    this.fetchDataAndPopulateTable();
-  }
-  async updatePageInfo() {
-    const totalPages = Math.ceil(this.data.length / this.recordsPerPage);
-    const response = await utils.getJson("checkDB");
-    const numRecordsData = await response.json();
-    const numRecords = numRecordsData.numRecords;
-    const offset =
-      this.currentPage * this.recordsPerPage - this.recordsPerPage + 1;
-    const limitk =
-      numRecords >= this.currentPage * this.recordsPerPage
-        ? this.currentPage * this.recordsPerPage
-        : numRecords;
-    if (this.currentPage > totalPages) this.goToPreviousPage();
-
-    this.shadowRoot.getElementById(
-      "pagesStatus"
-    ).textContent = `Page ${this.currentPage} of ${totalPages}`;
-    this.shadowRoot.getElementById(
-      "recordsStatus"
-    ).textContent = `${offset} to ${limitk} of ${numRecords} Records`;
-  }
-
-  async dataFetch() {
-    const response = await utils.getJson("fetchDB");
-    let data1 = await response.json();
-    const response2 = await utils.getJson("checkDB");
-    const numRecordsData = await response2.json();
-    const numRecords = numRecordsData.numRecords;
-    console.log(numRecords);
-    if (numRecords === 0) {
-      this.mainGridContainer.style.display = "none";
-      this.noRecordsMessageContainer.style.display = "block";
-    } else {
-      this.noRecordsMessageContainer.style.display = "none";
-      this.mainGridContainer.style.display = "block";
-    }
-    this.oldData = [...data1];
-    this.data = [...data1];
   }
 
   validateData(formData, modalType) {
@@ -663,7 +692,85 @@ class GridBase extends HTMLElement {
 
     return true;
   }
-  //Create Moadl Functions
+
+  //Pagination Box
+
+  changePageSize(event) {
+    this.recordsPerPage = parseInt(event.target.value);
+    this.currentPage = 1;
+    // this.fetchDataAndPopulateTable();
+    this.populateTable();
+  }
+
+  goToFirstPage() {
+    if (this.currentPage === 1) return;
+    this.goToPage(1);
+  }
+
+  goToNextPage() {
+    const totalPages = Math.ceil(this.data.length / this.recordsPerPage);
+    if (this.currentPage < totalPages) {
+      this.goToPage(this.currentPage + 1);
+    }
+  }
+
+  goToPreviousPage() {
+    if (this.currentPage > 1) {
+      this.goToPage(this.currentPage - 1);
+    }
+  }
+
+  goToLastPage() {
+    const totalPages = Math.ceil(this.data.length / this.recordsPerPage);
+    if (this.currentPage === totalPages) return;
+    this.goToPage(totalPages);
+    this.setPaginationBox();
+  }
+
+  goToPage(page) {
+    this.currentPage = page;
+    this.fetchDataAndPopulateTable();
+  }
+  async updatePageInfo() {
+    if (this.paginationON !== "true") return;
+    try {
+      const totalPages = Math.ceil(this.data.length / this.recordsPerPage);
+
+      const orderBy = this.sortAscending === true ? "ASC" : "DESC";
+      const sortInfo = {
+        name: this.sortField,
+        order: orderBy,
+      };
+      const response = await utils.postJson("employee/search", sortInfo);
+      const data = await response.json();
+      // const response = await utils.getJson("checkDB");
+      // const numRecordsData = await response.json();
+      // console.log("data1length", data1.length);
+      // console.log("numRecords", numRecordsData.numRecords);
+      const numRecords = data.length;
+      const offset =
+        this.currentPage * this.recordsPerPage - this.recordsPerPage + 1;
+      const limitk =
+        numRecords >= this.currentPage * this.recordsPerPage
+          ? this.currentPage * this.recordsPerPage
+          : numRecords;
+      if (this.currentPage > totalPages) this.goToPreviousPage();
+
+      this.shadowRoot.getElementById(
+        "pagesStatus"
+      ).textContent = `Page ${this.currentPage} of ${totalPages}`;
+      this.shadowRoot.getElementById(
+        "recordsStatus"
+      ).textContent = `${offset} to ${limitk} of ${numRecords} Records`;
+    } catch (error) {
+      console.log("Error:Page info updation error");
+      throw error;
+    } finally {
+      console.log("hello");
+    }
+  }
+
+  //Create Modal Functions
 
   clearCreateModalInput() {
     const createForm = this.shadowRoot.getElementById("modalForm");
@@ -746,22 +853,22 @@ class GridBase extends HTMLElement {
       }
       eid.innerText = "Enter the Employee ID";
       eid.style.display = "none";
-
-      const response = await utils.postJson("addData", formData);
+      const response = await utils.postJson("employee", formData);
       if (response.ok) {
         console.log("Employee Record added successfully");
         services.infoNotifying("Employee Record added successfully");
         await this.dataFetch();
+        // this.fetchDataAndPopulateTable();
         this.populateTable();
-        this.clearCreateModalInput();
+        -this.clearCreateModalInput();
       } else {
         console.error("Failed to add employee record");
-        services.errorNotifying("Failed to add employee recordcatch");
+        services.errorNotifying("Failed to add employee record");
         this.Createmodal.style.display = "none";
       }
     } catch (error) {
       console.error("Failed to add employee record");
-      services.errorNotifying("Failed to add employee recordcatch");
+      services.errorNotifying("Failed to add employee record");
       this.clearCreateModalInput();
     }
   }
@@ -780,18 +887,19 @@ class GridBase extends HTMLElement {
   }
 
   //Update Modal
+
   openUpdateModal(employee) {
-    this.shadowRoot.getElementById("UpdateModalEmployeeId").value =
-      employee.employeeId;
-    this.shadowRoot.getElementById("UpdateModalFirstName").value =
-      employee.firstName;
-    this.shadowRoot.getElementById("UpdateModalLastName").value =
-      employee.lastName;
-    this.shadowRoot.getElementById("UpdateModalEmail").value = employee.email;
-    this.shadowRoot.getElementById("UpdateModalContactNumber").value =
-      employee.contactNumber;
-    this.shadowRoot.getElementById("UpdateModalPosition").value =
-      employee.position;
+    this.shadowRoot.getElementById("UpdateModalEMPLOYEEID").value =
+      employee.EMPLOYEEID;
+    this.shadowRoot.getElementById("UpdateModalFIRSTNAME").value =
+      employee.FIRSTNAME;
+    this.shadowRoot.getElementById("UpdateModalLASTNAME").value =
+      employee.LASTNAME;
+    this.shadowRoot.getElementById("UpdateModalEMAIL").value = employee.EMAIL;
+    this.shadowRoot.getElementById("UpdateModalCONTACTNUMBER").value =
+      employee.CONTACTNUMBER;
+    this.shadowRoot.getElementById("UpdateModalPOSITION").value =
+      employee.POSITION;
 
     this.updateModal.style.display = "block";
   }
@@ -800,28 +908,29 @@ class GridBase extends HTMLElement {
     event.preventDefault();
     try {
       const formData = {
-        employeeId: this.shadowRoot.getElementById("UpdateModalEmployeeId")
+        employeeId: this.shadowRoot.getElementById("UpdateModalEMPLOYEEID")
           .value,
-        firstName: this.shadowRoot.getElementById("UpdateModalFirstName").value,
-        lastName: this.shadowRoot.getElementById("UpdateModalLastName").value,
-        email: this.shadowRoot.getElementById("UpdateModalEmail").value,
+        firstName: this.shadowRoot.getElementById("UpdateModalFIRSTNAME").value,
+        lastName: this.shadowRoot.getElementById("UpdateModalLASTNAME").value,
+        email: this.shadowRoot.getElementById("UpdateModalEMAIL").value,
         contactNumber: this.shadowRoot.getElementById(
-          "UpdateModalContactNumber"
+          "UpdateModalCONTACTNUMBER"
         ).value,
-        position: this.shadowRoot.getElementById("UpdateModalPosition").value,
+        position: this.shadowRoot.getElementById("UpdateModalPOSITION").value,
       };
 
       if (!this.validateData(formData, "uM")) {
         return;
       }
 
-      const response = await utils.updateJson("editData", formData);
+      const response = await utils.updateJson("employee", formData);
 
       if (response.ok) {
         console.log("Employee record updated successfully");
         services.infoNotifying("Employee record updated successfully");
         this.updateModal.style.display = "none";
         await this.dataFetch();
+        // this.fetchDataAndPopulateTable();
         this.populateTable();
       } else {
         console.error("Error updating data:", error);
@@ -866,7 +975,7 @@ class GridBase extends HTMLElement {
         .textContent.split(" ")
         .pop();
 
-      const response = await utils.deleteJson("deleteData", {
+      const response = await utils.deleteJson("employee", {
         employeeId: employeeId,
       });
 
@@ -875,6 +984,7 @@ class GridBase extends HTMLElement {
         services.infoNotifying("Employee record deleted successfully");
         this.deleteModal.style.display = "none";
         await this.dataFetch();
+        // this.fetchDataAndPopulateTable();
         this.populateTable();
       } else {
         console.error("Failed to delete employee record");

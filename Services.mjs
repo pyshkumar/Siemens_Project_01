@@ -35,7 +35,7 @@ const validateID = async (bodyData) => {
 };
 
 const errorNotifying = (message) => {
-  errorNotify(message);
+  errorNotify(`Error : ${message}`);
 };
 
 const infoNotifying = (message) => {
